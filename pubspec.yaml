@@ -1,0 +1,53 @@
+name: orange_grs
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.3 <4.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.2
+  flutter_bloc :
+  dartz:
+  equatable:
+  get_it:
+  internet_connection_checker:
+  http:
+  shared_preferences:
+  iconsax:
+  ionicons:
+  google_nav_bar: ^5.0.6
+  lottie:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^2.0.0
+
+
+flutter:
+
+ 
+  uses-material-design: true
+  assets :
+    - assets/
+    - assets/images/logo.png
+    - assets/animations/
+
+  fonts :
+    - family: 'Rubik-Medium'
+      fonts :
+        - asset : assets/fonts/rubik/Rubik-Medium.ttf
+    - family: 'Rubik-Regular'
+      fonts :
+        - asset : assets/fonts/rubik/Rubik-Regular.ttf

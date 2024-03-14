@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
+import 'package:orange_grs/features/sites/presentation/bloc/bloc/site_bloc.dart';
+import 'package:orange_grs/features/sites/presentation/widgets/loading_widget.dart';
 import 'package:orange_grs/features/sites/presentation/widgets/site_liste_item.dart';
+
 
 class SiteListPage extends StatelessWidget {
   const SiteListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    final List<String> listType = ['HT','BT','BT','HT','BT','HT','HT','HT','BT','BT','HT','BT','HT','HT','HT'];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: LayoutBuilder(
@@ -18,18 +20,31 @@ class SiteListPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20,),
-            _searchBar(constraints),
+            _searchBar(constraints, context),
             Expanded(
-              child: ListView.builder(
-                itemCount: listType.length,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      SiteListItemWidget(siteType: listType[index]),
-                      const SizedBox(height: 10,)
-                    ],
-                  );
+              child: BlocBuilder<SiteBloc,SiteState>(
+                builder: (context, state) {
+                  print('state is $state');
+                  if(state is LoadingSiteState){
+                    return const LoadingWidget();
+                  }else if(state is LoadedSiteState){
+                    return ListView.builder(
+                      itemCount: state.sites.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            SiteListItemWidget(site: state.sites[index]),
+                            const SizedBox(height: 10,)
+                          ],
+                        );
+                      },
+                    );
+                  }else if(state is ErrorSiteState){
+                    return Center(child: Text(state.message),);
+                  }
+
+                  return const LoadingWidget();
                 },
               ),
             ),
@@ -42,9 +57,10 @@ class SiteListPage extends StatelessWidget {
       );
   }
   
-  _searchBar(BoxConstraints constraints) {
+  _searchBar(BoxConstraints constraints, BuildContext context) {
     final localHeight = constraints.maxHeight;
     final localWidth = constraints.maxWidth;
+    TextEditingController serachController = TextEditingController();
     return SizedBox(
       width: localWidth,
       height: localHeight * 0.17,
@@ -57,11 +73,18 @@ class SiteListPage extends StatelessWidget {
              const Text("Sites", style: TextStyle(color: secondaryColor, fontSize: 20, fontWeight: FontWeight.w600, fontFamily: 'Rubik-Medium'),),
              const SizedBox(height: 5,),
              TextFormField(
+              controller: serachController,
               decoration: const InputDecoration(
                 hintText: 'Chercher par code site',
                 prefixIcon: Icon(CupertinoIcons.search),
               ),
-      
+              onChanged: (value) {
+                if(value.isNotEmpty){
+                  BlocProvider.of<SiteBloc>(context).add(SearchSiteEvent(siteCode: value));
+                }else{
+                  BlocProvider.of<SiteBloc>(context).add(GetAllSiteEvent());
+                }
+              },
         
              ),
       

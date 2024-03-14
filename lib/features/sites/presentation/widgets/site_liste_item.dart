@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/responsive/responsiveController.dart';
+import 'package:orange_grs/features/sites/domain/entities/site.dart';
 
 class SiteListItemWidget extends StatelessWidget {
-  final String siteType;
-  const SiteListItemWidget({super.key, required this.siteType});
+  final Site site;
+  const SiteListItemWidget({super.key, required this.site});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class SiteListItemWidget extends StatelessWidget {
     print(deviceType);
 
     if(deviceType == DeviceType.Mobile){
-      return SiteListItemWidgetMobile(siteType: siteType,);
+      return SiteListItemWidgetMobile(site: site,);
     }else if(deviceType == DeviceType.Tablet){
       return const SiteListItemWidgetTablet();
     }else{
@@ -25,11 +26,13 @@ class SiteListItemWidget extends StatelessWidget {
 
 
 class SiteListItemWidgetMobile extends StatelessWidget {
-  final String siteType;
-  const SiteListItemWidgetMobile({super.key, required this.siteType});
+  final Site site;
+  const SiteListItemWidgetMobile({super.key, required this.site});
 
   @override
   Widget build(BuildContext context) {
+
+    final siteType = site.elecType == 1 ? 'BT' : 'HT';
     return LayoutBuilder(
       builder: (context, constraints) {
         double localWidth = constraints.maxWidth;
@@ -47,8 +50,8 @@ class SiteListItemWidgetMobile extends StatelessWidget {
         
             child: Center(
               child: ListTile(
-                title: const Text("ARI_1001", style: TextStyle(color: secondaryColor, fontWeight: FontWeight.bold, fontSize: 18),),
-                subtitle:const Text("0965325704", style: TextStyle(color: secondaryColor, fontWeight: FontWeight.w400, fontSize: 16),),
+                title: Text(site.siteCode!, style: const TextStyle(color: secondaryColor, fontWeight: FontWeight.bold, fontSize: 18),),
+                subtitle:Text(site.siteRef, style: const TextStyle(color: secondaryColor, fontWeight: FontWeight.w400, fontSize: 16),),
                 trailing: const Icon(Icons.arrow_forward_ios , size: 27,),
                 leading: Container(
                   width: localWidth / 8,
@@ -58,7 +61,7 @@ class SiteListItemWidgetMobile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10)
                   ),
             
-                  child: Center(child: Text("BT", style: TextStyle(color: siteType == 'BT' ? primaryColor : secondaryColor, fontWeight: FontWeight.bold, fontSize: 20),)),
+                  child: Center(child: Text(siteType, style: TextStyle(color: siteType == 'BT' ? primaryColor : secondaryColor, fontWeight: FontWeight.bold, fontSize: 20),)),
                 ),
               ),
             ),

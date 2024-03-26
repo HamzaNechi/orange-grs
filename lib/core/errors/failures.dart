@@ -24,3 +24,9 @@ class PanneServerFailure extends Failure{
   @override
   List<Object?> get props => [];
 }
+
+
+class LoginFailure extends Failure{
+  @override
+  List<Object?> get props => [];
+}

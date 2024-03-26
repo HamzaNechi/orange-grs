@@ -20,3 +20,13 @@ class SearchSiteEvent extends SiteEvent{
   @override
   List<Object> get props => [siteCode];
 }
+
+
+class NombreFactureReelEvent extends SiteEvent{
+  final int siteIdd;
+
+  const NombreFactureReelEvent({required this.siteIdd});
+
+  @override
+  List<Object> get props => [siteIdd];
+}

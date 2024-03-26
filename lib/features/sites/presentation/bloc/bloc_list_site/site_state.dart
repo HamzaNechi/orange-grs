@@ -20,6 +20,16 @@ final class LoadedSiteState extends SiteState {
   List<Object> get props => [sites];
 }
 
+final class NombreFactureReelEn6MoisState extends SiteState {
+  final int nombre;
+
+  const NombreFactureReelEn6MoisState({required this.nombre});
+
+  @override
+  List<Object> get props => [nombre];
+}
+
+
 
 final class ErrorSiteState extends SiteState {
   final String message;

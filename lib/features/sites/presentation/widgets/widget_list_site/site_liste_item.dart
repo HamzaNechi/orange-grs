@@ -1,8 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/responsive/responsiveController.dart';
+import 'package:orange_grs/core/strings/fonts.dart';
 import 'package:orange_grs/features/sites/domain/entities/site.dart';
+import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
+import 'package:orange_grs/features/sites/presentation/pages/site_detail_page.dart';
 
 class SiteListItemWidget extends StatelessWidget {
   final Site site;
@@ -12,7 +15,6 @@ class SiteListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQueryData = MediaQuery.of(context);
     final deviceType = ResponsiveController().getDeviceType(mediaQueryData);
-    print(deviceType);
 
     if(deviceType == DeviceType.Mobile){
       return SiteListItemWidgetMobile(site: site,);
@@ -32,13 +34,15 @@ class SiteListItemWidgetMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final siteType = site.elecType == 1 ? 'BT' : 'HT';
+    final siteType = site.elecType == "Basse tension" ? 'BT' : 'HT';
     return LayoutBuilder(
       builder: (context, constraints) {
         double localWidth = constraints.maxWidth;
         return InkWell(
           onTap: () {
-            print("Voir factures");
+            final siteBloc = BlocProvider.of<SiteBloc>(context);
+            siteBloc.add(NombreFactureReelEvent(siteIdd: site.siteId!));
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>  SiteDetailPage(site: site),));
           },
           child: Container(
             width: localWidth,
@@ -50,8 +54,8 @@ class SiteListItemWidgetMobile extends StatelessWidget {
         
             child: Center(
               child: ListTile(
-                title: Text(site.siteCode!, style: const TextStyle(color: secondaryColor, fontWeight: FontWeight.bold, fontSize: 18),),
-                subtitle:Text(site.siteRef, style: const TextStyle(color: secondaryColor, fontWeight: FontWeight.w400, fontSize: 16),),
+                title: Text(site.siteCode!, style: const TextStyle(color: secondaryColor, fontWeight: FontWeight.w600, fontSize: 18, fontFamily: rubikFontSemiBold),),
+                subtitle:Text(site.siteRef, style: TextStyle(color: secondaryColor.withOpacity(0.7), fontWeight: FontWeight.w500, fontSize: 16, fontFamily: rubikFontSemiBold),),
                 trailing: const Icon(Icons.arrow_forward_ios , size: 27,),
                 leading: Container(
                   width: localWidth / 8,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:orange_grs/core/navigations/bottom_nav.dart';
 import 'package:orange_grs/core/responsive/responsiveController.dart';
 import 'package:orange_grs/features/auth/presentation/pages/login_page.dart';
+import 'package:orange_grs/main.dart';
 
 
 
@@ -11,11 +13,10 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
     Future.delayed(
       const Duration(seconds:4), 
       () {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage(),));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => sharedPref.getString("token") == null ? const LoginPage() : const BottomNav(),));
     });
 
     DeviceType deviceType = ResponsiveController().getDeviceType(MediaQuery.of(context));

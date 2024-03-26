@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
+import 'package:orange_grs/core/strings/fonts.dart';
 
 
 final appTheme = ThemeData(
@@ -57,5 +58,15 @@ final appTheme = ThemeData(
               width: 1
               ),
           ),
+        ),
+
+
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(
+              color: secondaryColor, 
+              fontWeight: FontWeight.w500, 
+              fontFamily: rubikFontSemiBold,
+              fontSize: 14
+              ),
         )
       );

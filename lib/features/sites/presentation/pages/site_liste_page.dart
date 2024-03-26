@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
-import 'package:orange_grs/features/sites/presentation/bloc/bloc/site_bloc.dart';
-import 'package:orange_grs/features/sites/presentation/widgets/loading_widget.dart';
-import 'package:orange_grs/features/sites/presentation/widgets/site_liste_item.dart';
+import 'package:orange_grs/core/widgets/snackbar.dart';
+import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
+import 'package:orange_grs/features/sites/presentation/widgets/widget_list_site/loading_widget.dart';
+import 'package:orange_grs/features/sites/presentation/widgets/widget_list_site/site_liste_item.dart';
 
 
 class SiteListPage extends StatelessWidget {
@@ -24,7 +25,6 @@ class SiteListPage extends StatelessWidget {
             Expanded(
               child: BlocBuilder<SiteBloc,SiteState>(
                 builder: (context, state) {
-                  print('state is $state');
                   if(state is LoadingSiteState){
                     return const LoadingWidget();
                   }else if(state is LoadedSiteState){
@@ -41,7 +41,7 @@ class SiteListPage extends StatelessWidget {
                       },
                     );
                   }else if(state is ErrorSiteState){
-                    return Center(child: Text(state.message),);
+                    SnackbarMessage().showErrorSnackBar(context: context, message: state.message);
                   }
 
                   return const LoadingWidget();

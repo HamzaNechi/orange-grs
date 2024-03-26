@@ -9,6 +9,7 @@ import 'package:orange_grs/core/navigations/widget/app_bar_widget.dart';
 
 
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
 
 
 class BottomNav extends StatelessWidget {
@@ -16,7 +17,13 @@ class BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BottomNavBloc, BottomNavState>(builder: (context, state) {
+    return BlocConsumer<BottomNavBloc, BottomNavState>(
+      listener: (context, state) {
+        if(state is BottomNavSiteWidgetState){
+          BlocProvider.of<SiteBloc>(context).add(GetAllSiteEvent());
+        }
+      },
+      builder: (context, state) {
         //final String titleAppBar = state.props[0].toString();
         final Widget widget = state.props[2] as Widget;
         int selectedIndex = state.props[1] as int;

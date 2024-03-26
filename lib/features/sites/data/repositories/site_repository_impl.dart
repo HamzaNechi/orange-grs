@@ -5,6 +5,7 @@ import 'package:orange_grs/core/errors/exceptions.dart';
 import 'package:orange_grs/core/errors/failures.dart';
 import 'package:orange_grs/core/network/network_info.dart';
 import 'package:orange_grs/features/sites/data/datasources/remote_data_source.dart';
+import 'package:orange_grs/features/sites/domain/entities/facture_site.dart';
 import 'package:orange_grs/features/sites/domain/entities/site.dart';
 import 'package:orange_grs/features/sites/domain/repositorie/site_repository.dart';
 
@@ -21,6 +22,42 @@ class SiteRepositoryImpl implements SiteRepository{
       try{
         final remoteSites = await remoteDataSource.getAllSites(siteCode);
         return Right(remoteSites);
+      }on ServerException{
+        return Left(ServerFailure());
+      }on TimeoutException{
+        return Left(PanneServerFailure());
+      }on Exception{
+        return Left(PanneServerFailure());
+      }
+      
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<FactureSite>>> getAllFactureSites(int siteId) async {
+    if(await networkInfo.isConnected){
+      try{
+        final remoteFactures = await remoteDataSource.getAllFactureSites(siteId);
+        return Right(remoteFactures);
+      }on ServerException{
+        return Left(ServerFailure());
+      }on TimeoutException{
+        return Left(PanneServerFailure());
+      }
+      
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, int>> getNombreFactureReelen6Mois(int siteId) async{
+    if(await networkInfo.isConnected){
+      try{
+        final NumberOfReelInvoice = await remoteDataSource.getNombreFactureReelEn6Mois(siteId);
+        return Right(NumberOfReelInvoice);
       }on ServerException{
         return Left(ServerFailure());
       }on TimeoutException{

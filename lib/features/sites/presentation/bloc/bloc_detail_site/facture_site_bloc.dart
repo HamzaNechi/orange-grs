@@ -11,12 +11,34 @@ class FactureSiteBloc extends Bloc<FactureSiteEvent, FactureSiteState>{
     on<FactureSiteEvent>((event, emit) async {
       emit(LoadingFactureSiteState());
 
+
+
       if(event is GetAllFactureSiteEvent){
         final failorOrFactures = await getAllFacturesSites(event.siteId);
 
         failorOrFactures.fold(
           (failure) {
-            emit(ErrorFactureSiteState(message: _mapFailureToMessage(failure)));
+            if(failure is ExpiredJwtFailure){
+              emit(ExpiredTokenDetailSiteState());
+            }else{
+              emit(ErrorFactureSiteState(message: _mapFailureToMessage(failure)));
+            }
+            
+          }, 
+          (factures) {
+            emit(LoadedFactureSiteState(siteFactures: factures));
+          });
+      }else if( event is RefreshFactureSiteEvent){
+        final failorOrFactures = await getAllFacturesSites(event.siteId);
+
+        failorOrFactures.fold(
+          (failure) {
+            if(failure is ExpiredJwtFailure){
+              emit(ExpiredTokenDetailSiteState());
+            }else{
+              emit(ErrorFactureSiteState(message: _mapFailureToMessage(failure)));
+            }
+            
           }, 
           (factures) {
             emit(LoadedFactureSiteState(siteFactures: factures));
@@ -24,6 +46,9 @@ class FactureSiteBloc extends Bloc<FactureSiteEvent, FactureSiteState>{
       }
     });
   }
+
+
+  
 
 
 

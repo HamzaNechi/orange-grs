@@ -12,13 +12,17 @@ class LoadingListFactureWidget extends StatelessWidget {
       child: ListView(
         children: const [
           LoadingItem(),
-          SizedBox(height: 10,),
+          SizedBox(height: 25,),
           LoadingItem(),
-          SizedBox(height: 10,),
+          SizedBox(height: 25,),
           LoadingItem(),
-          SizedBox(height: 10,),
+          SizedBox(height: 25,),
           LoadingItem(),
-          SizedBox(height: 10,),
+          SizedBox(height: 25,),
+          LoadingItem(),
+          SizedBox(height: 25,),
+          LoadingItem(),
+          SizedBox(height: 25,),
           LoadingItem(),
         ],
       ),
@@ -38,13 +42,14 @@ class LoadingItem extends StatelessWidget {
     return ShimmerLoading(
                     child: Column(
                       children: [
+                        const SizedBox(height: 8,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
 
                             Container(
                               width: screenWidth * 0.35,
-                              height: 15,
+                              height: 10,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                                 color: Color.fromARGB(255, 235, 235, 241),
@@ -56,7 +61,36 @@ class LoadingItem extends StatelessWidget {
 
                             Container(
                               width: screenWidth * 0.35,
-                              height: 12,
+                              height: 10,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                color: Color(0xFFEBEBF4),
+                              ),
+                            ),
+                          ],
+                        ),
+
+
+                        const SizedBox(height: 8,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+
+                            Container(
+                              width: screenWidth * 0.35,
+                              height: 10,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                color: Color.fromARGB(255, 235, 235, 241),
+                              ),
+                            ),
+
+                            const SizedBox(height: 5,),
+
+
+                            Container(
+                              width: screenWidth * 0.35,
+                              height: 10,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                                 color: Color(0xFFEBEBF4),
@@ -67,13 +101,14 @@ class LoadingItem extends StatelessWidget {
 
 
 
+                        const SizedBox(height: 8,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
 
                             Container(
                               width: screenWidth * 0.35,
-                              height: 15,
+                              height: 10,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                                 color: Color.fromARGB(255, 235, 235, 241),
@@ -85,7 +120,7 @@ class LoadingItem extends StatelessWidget {
 
                             Container(
                               width: screenWidth * 0.35,
-                              height: 12,
+                              height: 10,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                                 color: Color(0xFFEBEBF4),
@@ -94,8 +129,7 @@ class LoadingItem extends StatelessWidget {
                           ],
                         ),
 
-
-
+                        const SizedBox(height: 8,),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,7 +137,7 @@ class LoadingItem extends StatelessWidget {
 
                             Container(
                               width: screenWidth * 0.35,
-                              height: 15,
+                              height: 10,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                                 color: Color.fromARGB(255, 235, 235, 241),
@@ -115,36 +149,7 @@ class LoadingItem extends StatelessWidget {
 
                             Container(
                               width: screenWidth * 0.35,
-                              height: 12,
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                color: Color(0xFFEBEBF4),
-                              ),
-                            ),
-                          ],
-                        ),
-
-
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-
-                            Container(
-                              width: screenWidth * 0.35,
-                              height: 15,
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                color: Color.fromARGB(255, 235, 235, 241),
-                              ),
-                            ),
-
-                            const SizedBox(height: 5,),
-
-
-                            Container(
-                              width: screenWidth * 0.35,
-                              height: 12,
+                              height: 10,
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                                 color: Color(0xFFEBEBF4),

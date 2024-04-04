@@ -31,13 +31,16 @@ class SiteRemoteDataSourceImpl implements SiteRemoteDataSource{
           }
         ).timeout(const Duration(seconds: 10));
 
+
       if(response.statusCode == 200){
         List decodeJsonData = jsonDecode(response.body) as List;
         List<SiteModel> sites = decodeJsonData
                                 .map<SiteModel>((siteModel) => SiteModel.fromJson(siteModel))
                                 .toList();
         return sites;
-        }else{
+      }else if(response.statusCode == 401){
+        throw ExpiredJwtException();
+      }else{
           throw ServerException();
       }
 
@@ -65,10 +68,11 @@ class SiteRemoteDataSourceImpl implements SiteRemoteDataSource{
                                 .map<FactureSiteModel>((facture) => FactureSiteModel.fromJson(facture))
                                 .toList();
         return factures;
-        }else{
+      }else if(response.statusCode == 401){
+        throw ExpiredJwtException();
+      }else{
           throw ServerException();
       }
-
     }on TimeoutException{
       throw TimeoutException("Le serveur est actuellement en panne");
     }
@@ -91,7 +95,9 @@ class SiteRemoteDataSourceImpl implements SiteRemoteDataSource{
       if(response.statusCode == 200){
         int decodeJsonData = jsonDecode(response.body) as int;
         return decodeJsonData;
-        }else{
+      }else if(response.statusCode == 401){
+        throw ExpiredJwtException();
+      }else{
           throw ServerException();
       }
 

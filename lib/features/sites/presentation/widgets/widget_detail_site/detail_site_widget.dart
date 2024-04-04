@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
+import 'package:orange_grs/core/strings/failures.dart';
 import 'package:orange_grs/core/strings/fonts.dart';
+import 'package:orange_grs/core/widgets/snackbar.dart';
+import 'package:orange_grs/features/auth/presentation/pages/login_page.dart';
 import 'package:orange_grs/features/sites/domain/entities/site.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
+import 'package:orange_grs/main.dart';
 
 class SiteDetailWidget extends StatelessWidget {
   final Site site;
@@ -57,7 +61,7 @@ class SiteDetailWidget extends StatelessWidget {
                       ),
 
 
-                      BlocBuilder<SiteBloc, SiteState>(
+                      BlocConsumer<SiteBloc, SiteState>(
                         builder: (context, state) {
                           if(state is NombreFactureReelEn6MoisState){
                             if(state.nombre > 0){
@@ -71,7 +75,13 @@ class SiteDetailWidget extends StatelessWidget {
                           }
                           
                           return Container();
-                        },
+                        }, listener: (BuildContext context, SiteState state) { 
+                            if(state is ExpiredTokenState){
+                                sharedPref.setString('token','');
+                                SnackbarMessage().showErrorSnackBar(context: context, message: EXPIRED_TOKEN_FAILURE_MESSAGE);
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginPage(),), (route) => false);
+                            }
+                         },
                       ),
 
                       SizedBox(

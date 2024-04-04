@@ -2,10 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
+import 'package:orange_grs/core/strings/failures.dart';
 import 'package:orange_grs/core/widgets/snackbar.dart';
+import 'package:orange_grs/features/auth/presentation/pages/login_page.dart';
+import 'package:orange_grs/features/sites/domain/entities/site.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
 import 'package:orange_grs/features/sites/presentation/widgets/widget_list_site/loading_widget.dart';
 import 'package:orange_grs/features/sites/presentation/widgets/widget_list_site/site_liste_item.dart';
+import 'package:orange_grs/main.dart';
 
 
 class SiteListPage extends StatelessWidget {
@@ -23,29 +27,28 @@ class SiteListPage extends StatelessWidget {
             const SizedBox(height: 20,),
             _searchBar(constraints, context),
             Expanded(
-              child: BlocBuilder<SiteBloc,SiteState>(
+              child: BlocConsumer<SiteBloc,SiteState>(
                 builder: (context, state) {
                   if(state is LoadingSiteState){
                     return const LoadingWidget();
                   }else if(state is LoadedSiteState){
-                    return ListView.builder(
-                      itemCount: state.sites.length,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            SiteListItemWidget(site: state.sites[index]),
-                            const SizedBox(height: 10,)
-                          ],
-                        );
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        BlocProvider.of<SiteBloc>(context).add(RefreshListSiteEvent());
                       },
-                    );
+                      child: _buildListSites(state.sites));
                   }else if(state is ErrorSiteState){
                     SnackbarMessage().showErrorSnackBar(context: context, message: state.message);
                   }
 
                   return const LoadingWidget();
-                },
+                }, listener: (BuildContext context, SiteState state) { 
+                  if(state is ExpiredTokenState){
+                    sharedPref.setString('token','');
+                    SnackbarMessage().showErrorSnackBar(context: context, message: EXPIRED_TOKEN_FAILURE_MESSAGE);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginPage(),), (route) => false);
+                  }
+                 },
               ),
             ),
           ],
@@ -55,6 +58,22 @@ class SiteListPage extends StatelessWidget {
         
       ),
       );
+  }
+
+
+  ListView _buildListSites(List<Site> sites){
+    return ListView.builder(
+                      itemCount: sites.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            SiteListItemWidget(site: sites[index]),
+                            const SizedBox(height: 10,)
+                          ],
+                        );
+                      },
+                    );
   }
   
   _searchBar(BoxConstraints constraints, BuildContext context) {

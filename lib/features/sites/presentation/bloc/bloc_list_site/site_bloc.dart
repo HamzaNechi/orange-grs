@@ -33,7 +33,7 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
       }else{
         final Either<Failure, List<Site>> failureOrSites;
 
-        if(event is GetAllSiteEvent){
+        if(event is GetAllSiteEvent || event is RefreshListSiteEvent){
           failureOrSites = await getAllSites.call();
         }else if (event is SearchSiteEvent){
           failureOrSites = await searchSiteByCode.call(event.siteCode);
@@ -43,7 +43,12 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
         
         failureOrSites.fold(
           (failure){
-            emit(ErrorSiteState(message: _mapFailureToMessage(failure)));
+            if(failure is ExpiredJwtFailure){
+              emit(ExpiredTokenState());
+            }else{
+              emit(ErrorSiteState(message: _mapFailureToMessage(failure)));
+            }
+            
           }, 
           (sites) {
             emit(LoadedSiteState(sites: sites));
@@ -63,6 +68,7 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
       case EmptyCacheFailure : return EMPTY_CACHE_FAILURE_MESSAGE;
       case OfflineFailure : return OFFLINE_FAILURE_MESSAGE;
       case PanneServerFailure : return PANNE_SERVER_FAILURE_MESSAGE;
+      case ExpiredJwtFailure: return EXPIRED_TOKEN_FAILURE_MESSAGE;
       default: return "Unexpected Error, Please try again later ";
     }
   }

@@ -39,3 +39,7 @@ final class ErrorSiteState extends SiteState {
   @override
   List<Object> get props => [message];
 }
+
+
+
+final class ExpiredTokenState extends SiteState{}

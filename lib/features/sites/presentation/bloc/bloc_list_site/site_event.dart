@@ -30,3 +30,6 @@ class NombreFactureReelEvent extends SiteEvent{
   @override
   List<Object> get props => [siteIdd];
 }
+
+
+class RefreshListSiteEvent extends SiteEvent{}

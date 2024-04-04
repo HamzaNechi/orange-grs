@@ -67,7 +67,7 @@ class SiteDetailPage extends StatelessWidget {
                       SiteDetailWidget(site: site),
                   
                   
-                      const ListFactureSite()
+                      ListFactureSite(siteId: site.siteId!,)
                     ]
                     ),
                   ),

@@ -17,3 +17,14 @@ class GetAllFactureSiteEvent extends FactureSiteEvent{
   @override
   List<Object?> get props => [siteId];
 }
+
+
+class RefreshFactureSiteEvent extends FactureSiteEvent{
+  final int siteId;
+
+  RefreshFactureSiteEvent({required this.siteId});
+
+
+  @override
+  List<Object?> get props => [siteId];
+}

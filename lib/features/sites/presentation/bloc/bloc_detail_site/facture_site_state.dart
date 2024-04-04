@@ -30,3 +30,6 @@ final class ErrorFactureSiteState extends FactureSiteState {
   @override
   List<Object> get props => [message];
 }
+
+
+final class ExpiredTokenDetailSiteState extends FactureSiteState{}

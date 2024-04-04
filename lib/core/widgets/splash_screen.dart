@@ -10,13 +10,16 @@ import 'package:orange_grs/main.dart';
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+
+    bool toLoginOrDashboard = sharedPref.getString("token") == null || sharedPref.getString("token")!.isEmpty;
 
     Future.delayed(
       const Duration(seconds:4), 
       () {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => sharedPref.getString("token") == null ? const LoginPage() : const BottomNav(),));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => toLoginOrDashboard ? const LoginPage() : const BottomNav(),));
     });
 
     DeviceType deviceType = ResponsiveController().getDeviceType(MediaQuery.of(context));

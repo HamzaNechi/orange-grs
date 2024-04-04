@@ -22,6 +22,8 @@ class SiteRepositoryImpl implements SiteRepository{
       try{
         final remoteSites = await remoteDataSource.getAllSites(siteCode);
         return Right(remoteSites);
+      }on ExpiredJwtException{
+        return Left(ExpiredJwtFailure());
       }on ServerException{
         return Left(ServerFailure());
       }on TimeoutException{
@@ -41,6 +43,8 @@ class SiteRepositoryImpl implements SiteRepository{
       try{
         final remoteFactures = await remoteDataSource.getAllFactureSites(siteId);
         return Right(remoteFactures);
+      }on ExpiredJwtException{
+        return Left(ExpiredJwtFailure());
       }on ServerException{
         return Left(ServerFailure());
       }on TimeoutException{
@@ -58,6 +62,8 @@ class SiteRepositoryImpl implements SiteRepository{
       try{
         final NumberOfReelInvoice = await remoteDataSource.getNombreFactureReelEn6Mois(siteId);
         return Right(NumberOfReelInvoice);
+      }on ExpiredJwtException{
+        return Left(ExpiredJwtFailure());
       }on ServerException{
         return Left(ServerFailure());
       }on TimeoutException{

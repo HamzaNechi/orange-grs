@@ -30,3 +30,9 @@ class LoginFailure extends Failure{
   @override
   List<Object?> get props => [];
 }
+
+
+class ExpiredJwtFailure extends Failure{
+  @override
+  List<Object?> get props => [];
+}

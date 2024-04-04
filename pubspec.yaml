@@ -27,7 +27,8 @@ dependencies:
   google_nav_bar: ^5.0.6
   lottie:
   shimmer_loading: ^0.0.1
-  intl: 
+  intl:
+  flutter_localization:
 
 dev_dependencies:
   flutter_test:

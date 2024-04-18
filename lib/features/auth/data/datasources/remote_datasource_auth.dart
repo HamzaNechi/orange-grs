@@ -29,7 +29,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
         "password" : password
       };
     try{
-      var response = await http.post(Uri.parse(uri), body:jsonEncode(_body), headers: _header);
+      var response = await http.post(Uri.parse(uri), body:jsonEncode(_body), headers: _header).timeout(const Duration(seconds: 10));
       if(response.statusCode == 200){
         final Map<String, dynamic> mapJson = jsonDecode(response.body) as Map<String, dynamic>;     
         if(mapJson["statusCode"] == 500){
@@ -45,8 +45,5 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
     }on TimeoutException{
       throw TimeoutException("Le serveur est actuellement en panne");
     }
-
-    
-
   }
 }

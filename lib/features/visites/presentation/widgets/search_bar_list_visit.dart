@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
+import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
+import 'package:orange_grs/features/visites/presentation/pages/add_visite_page.dart';
 
 class SearchBarListVisitWidget extends StatelessWidget {
   final BoxConstraints constraints;
@@ -10,11 +13,11 @@ class SearchBarListVisitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final localHeight = constraints.maxHeight;
     final localWidth = constraints.maxWidth;
-    TextEditingController serachController = TextEditingController();
-    GlobalKey<FormState> _key = GlobalKey<FormState>();
+    TextEditingController serachVisiteController = TextEditingController();
+    GlobalKey<FormState> keyForm = GlobalKey<FormState>();
     return SizedBox(
       width: localWidth,
-      height: localHeight * 0.17,
+      height: localHeight * 0.15,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
@@ -22,7 +25,7 @@ class SearchBarListVisitWidget extends StatelessWidget {
           children: [
             
              const Text("Visites", style: TextStyle(color: secondaryColor, fontSize: 20, fontWeight: FontWeight.w600, fontFamily: 'Rubik-Medium'),),
-             const SizedBox(height: 5,),
+             //const SizedBox(height: 1,),
              Expanded(
                child: Row(
 
@@ -30,9 +33,9 @@ class SearchBarListVisitWidget extends StatelessWidget {
                    SizedBox(
                     width: localWidth * 0.8,
                      child: Form(
-                      key: _key,
+                      key: keyForm,
                        child: TextFormField(
-                        controller: serachController,
+                        controller: serachVisiteController,
                         decoration: const InputDecoration(
                           hintText: 'Chercher par site',
                           prefixIcon: Icon(CupertinoIcons.search),
@@ -45,21 +48,23 @@ class SearchBarListVisitWidget extends StatelessWidget {
                    ),
 
 
-                  const SizedBox(width: 10,),
+                  SizedBox(width: localWidth * 0.03,),
              
              
                    InkWell(
                     onTap: () {
-                      showModalBottomSheet(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))
-                        ),
-                        enableDrag: true,
-                        backgroundColor: Colors.white,
-                        context: context, 
-                        builder: (context) {
-                          return _buildBottomSheetContent(context,localHeight, localWidth);
-                        },);
+                      BlocProvider.of<SiteBloc>(context).add(GetAllSiteEvent());
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const AddVisitePage(),));
+                      // showModalBottomSheet(
+                      //   shape: const RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))
+                      //   ),
+                      //   enableDrag: true,
+                      //   backgroundColor: Colors.white,
+                      //   context: context, 
+                      //   builder: (context) {
+                      //     return _buildBottomSheetContent(context,localHeight, localWidth);
+                      //   },);
                     },
                     child: Container(
                       width: localWidth * 0.117,
@@ -70,7 +75,8 @@ class SearchBarListVisitWidget extends StatelessWidget {
                       ),
                       child: const Center(
                         child: Icon(
-                          CupertinoIcons.slider_horizontal_3,
+                          CupertinoIcons.plus,
+                          size: 27,
                           color: primaryColor,
                         ),
                       ),
@@ -79,8 +85,6 @@ class SearchBarListVisitWidget extends StatelessWidget {
                  ],
                ),
              ),
-      
-             const SizedBox(height: 10,),
       
              const Divider(color: greyColor, height: 10,)
           ],

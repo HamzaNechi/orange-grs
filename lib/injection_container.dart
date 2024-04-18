@@ -13,6 +13,11 @@ import 'package:orange_grs/features/sites/domain/usecases/get_nombre_facture_ree
 import 'package:orange_grs/features/sites/domain/usecases/serach_site_usecas.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_detail_site/facture_site_bloc.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
+import 'package:orange_grs/features/visites/data/datasources/visite_remote_datasource.dart';
+import 'package:orange_grs/features/visites/data/repositories/visite_repository_impl.dart';
+import 'package:orange_grs/features/visites/domain/repositories/visite_repository.dart';
+import 'package:orange_grs/features/visites/domain/usecases/get_all_visite_use_case.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_bloc.dart';
 
 import 'core/network/network_info.dart';
 import 'package:get_it/get_it.dart';
@@ -42,6 +47,24 @@ Future<void> init() async {
   sl.registerLazySingleton<SiteRepository>(() => SiteRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
 //DataSource
   sl.registerLazySingleton<SiteRemoteDataSource>(() => SiteRemoteDataSourceImpl());
+//! ------------------------------ End Features - sites
+
+
+
+
+//! ------------------------------ Features - visites
+// Bloc
+  sl.registerFactory(() => VisiteBloc(getAllVisiteUseCase: sl()));
+// use case
+  sl.registerLazySingleton(() => GetAllVisiteUseCase(sl()));
+// Repository
+  sl.registerLazySingleton<VisiteRepository>(() => VisiteRepositoryImpl(visiteRemoteDataSource: sl(), networkInfo: sl()));
+//DataSource
+  sl.registerLazySingleton<VisiteRemoteDataSource>(() => VisiteRemoteDataSourceImpl());
+//! ------------------------------ End Features - visites
+
+
+
 
 //!-----------------------------------Features - Auth
 // bloc
@@ -52,6 +75,8 @@ Future<void> init() async {
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(authRemoteDataSource: sl(), networkInfo: sl()) );
 // datasource
   sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl());
+//! ------------------------------ End Features - Auth
+
 
 
 

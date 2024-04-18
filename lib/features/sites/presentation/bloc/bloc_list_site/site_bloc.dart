@@ -1,8 +1,8 @@
-import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/errors/failures.dart';
-import 'package:orange_grs/core/strings/failures.dart';
+import 'package:orange_grs/core/utils/global_function_utils.dart';
 import 'package:orange_grs/features/sites/domain/entities/site.dart';
 import 'package:orange_grs/features/sites/domain/usecases/get_all_site.dart';
 import 'package:orange_grs/features/sites/domain/usecases/get_nombre_facture_reel.dart';
@@ -23,7 +23,8 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
         final Either<Failure, int> nb = await getNombreFactureReel(event.siteIdd);
         nb.fold(
           (failure){
-            emit(ErrorSiteState(message: _mapFailureToMessage(failure)));
+            String errorMessage = GlobalFunctionUtils.mapFailureToMessage(failure);
+            emit(ErrorSiteState(message: errorMessage));
           }, 
           (nbFR) {
             emit(NombreFactureReelEn6MoisState(nombre: nbFR));
@@ -46,7 +47,8 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
             if(failure is ExpiredJwtFailure){
               emit(ExpiredTokenState());
             }else{
-              emit(ErrorSiteState(message: _mapFailureToMessage(failure)));
+              String errorMessage = GlobalFunctionUtils.mapFailureToMessage(failure);
+              emit(ErrorSiteState(message: errorMessage));
             }
             
           }, 
@@ -59,17 +61,5 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
 
       
     });
-  }
-
-
-  String _mapFailureToMessage(Failure failure){
-    switch(failure.runtimeType){
-      case ServerFailure : return SERVER_FAILURE_MESSAGE;
-      case EmptyCacheFailure : return EMPTY_CACHE_FAILURE_MESSAGE;
-      case OfflineFailure : return OFFLINE_FAILURE_MESSAGE;
-      case PanneServerFailure : return PANNE_SERVER_FAILURE_MESSAGE;
-      case ExpiredJwtFailure: return EXPIRED_TOKEN_FAILURE_MESSAGE;
-      default: return "Unexpected Error, Please try again later ";
-    }
   }
 }

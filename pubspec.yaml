@@ -21,21 +21,23 @@ dependencies:
   get_it:
   internet_connection_checker:
   http:
-  shared_preferences:
+  shared_preferences: ^2.2.2
   iconsax:
   ionicons:
   google_nav_bar: ^5.0.6
   lottie:
   shimmer_loading: ^0.0.1
-  intl:
-  flutter_localization:
+  intl: 
+  flutter_localization:  ^0.2.0
+  image_picker:
+  searchfield: ^1.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.2
 
 
 flutter:

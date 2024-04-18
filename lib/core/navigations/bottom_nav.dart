@@ -10,6 +10,8 @@ import 'package:orange_grs/core/navigations/widget/app_bar_widget.dart';
 
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_bloc.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
 
 
 class BottomNav extends StatelessWidget {
@@ -21,13 +23,14 @@ class BottomNav extends StatelessWidget {
       listener: (context, state) {
         if(state is BottomNavSiteWidgetState){
           BlocProvider.of<SiteBloc>(context).add(GetAllSiteEvent());
+        }else if(state is BottomNavVisiteWidgetState){
+          BlocProvider.of<VisiteBloc>(context).add(GettAllVisitesEvent());
         }
       },
       builder: (context, state) {
-        //final String titleAppBar = state.props[0].toString();
         final Widget widget = state.props[2] as Widget;
         int selectedIndex = state.props[1] as int;
-
+        
         return Scaffold(
           resizeToAvoidBottomInset : false,
           

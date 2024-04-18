@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/strings/failures.dart';
+import 'package:orange_grs/core/widgets/loading_widget.dart';
 import 'package:orange_grs/core/widgets/snackbar.dart';
 import 'package:orange_grs/features/auth/presentation/pages/login_page.dart';
 import 'package:orange_grs/features/sites/domain/entities/site.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
-import 'package:orange_grs/features/sites/presentation/widgets/widget_list_site/loading_widget.dart';
 import 'package:orange_grs/features/sites/presentation/widgets/widget_list_site/site_liste_item.dart';
 import 'package:orange_grs/main.dart';
 
@@ -37,8 +38,12 @@ class SiteListPage extends StatelessWidget {
                         BlocProvider.of<SiteBloc>(context).add(RefreshListSiteEvent());
                       },
                       child: _buildListSites(state.sites));
-                  }else if(state is ErrorSiteState){
-                    SnackbarMessage().showErrorSnackBar(context: context, message: state.message);
+                  }else if (state is ErrorSiteState){
+                    return Center(
+                      child: SizedBox(
+                        height: constraints.maxHeight,
+                        width: constraints.maxWidth,
+                        child: Lottie.asset("assets/animations/alert.json")));
                   }
 
                   return const LoadingWidget();
@@ -47,6 +52,8 @@ class SiteListPage extends StatelessWidget {
                     sharedPref.setString('token','');
                     SnackbarMessage().showErrorSnackBar(context: context, message: EXPIRED_TOKEN_FAILURE_MESSAGE);
                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginPage(),), (route) => false);
+                  }else if(state is ErrorSiteState){
+                    SnackbarMessage().showErrorSnackBar(context: context, message: state.message);
                   }
                  },
               ),

@@ -1,13 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/strings/fonts.dart';
 import 'package:orange_grs/core/widgets/second_app_bar.dart';
+import 'package:orange_grs/core/widgets/snackbar.dart';
 import 'package:orange_grs/features/sites/domain/entities/site.dart';
-import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
-import 'package:orange_grs/features/visites/presentation/widgets/add_image_widget.dart';
-import 'package:searchfield/searchfield.dart';
+import 'package:orange_grs/features/visites/domain/entities/visite.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_bloc.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_state.dart';
+import 'package:orange_grs/features/visites/presentation/widgets/add_visit_widgets/add_image_widget.dart';
+import 'package:orange_grs/features/visites/presentation/widgets/add_visit_widgets/site_field_addvisite.dart';
 
 class AddVisitePage extends StatelessWidget {
   const AddVisitePage({super.key});
@@ -15,15 +19,34 @@ class AddVisitePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController indexController = TextEditingController();
-    TextEditingController siteController = TextEditingController();
     TextEditingController commentController = TextEditingController();
     GlobalKey<FormState> keyFormAddNewVisite = GlobalKey<FormState>();
-
+    late Site site;
+    late XFile file;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: SecondAppBarWidget(contextX: context),
       body: LayoutBuilder(
         builder: (context, constraints) {
+
+          bool isNumeric(String? s) {
+            if (s == null) {
+              return false;
+            }
+            return double.tryParse(s) != null;
+          }
+
+          BlocListener<VisiteBloc, VisiteState>(listener: (context, state) {  
+            if(state is ErrorVisiteState){
+              SnackbarMessage().showErrorSnackBar(message: state.message, context: context);
+            }else if(state is AddedNewVisiteState){
+              indexController.text = "";
+              commentController.text = "";
+              SnackbarMessage().showSuccessSnackBar(message: "visite added", context: context);
+            }
+          },);
+
+
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -66,7 +89,10 @@ class AddVisitePage extends StatelessWidget {
                   SizedBox(
                     height: constraints.maxHeight * 0.05,
                   ),
-                  AddImageWidget(heightContainer: constraints.maxHeight * 0.16),
+
+                  AddImageWidget(heightContainer: constraints.maxHeight * 0.16, onChoose: (value) {
+                    file = value;
+                  },),
                   SizedBox(
                     height: constraints.maxHeight * 0.04,
                   ),
@@ -81,6 +107,17 @@ class AddVisitePage extends StatelessWidget {
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             enableSuggestions: true,
+                            validator: (value) {
+                              if(value!.isEmpty){
+                                return "Ecrivez votre commentaire";
+                              }
+
+                              if (!isNumeric(value)) {
+                                return "Veuillez entrer uniquement des chiffres";
+                              }
+
+                              return null;
+                            },
                             decoration: const InputDecoration(
                                 hintText: 'index compteur',
                                 contentPadding: EdgeInsets.all(10)
@@ -93,52 +130,10 @@ class AddVisitePage extends StatelessWidget {
                             height: 8,
                           ),
 
-                          // TextFormField(
-                          //   controller: siteController,
-                          //   textInputAction: TextInputAction.next,
-                          //   decoration: const InputDecoration(
-                          //     contentPadding: EdgeInsets.all(10),
-                          //     hintText: 'Entrer le site',
-                          //    // prefixIcon: Icon(CupertinoIcons.location),
-                          //   ),
-                          //   onChanged: (value) {
-                          //   },
 
-                          // ),
-
-                          BlocBuilder<SiteBloc, SiteState>(
-                            builder: (context, state) {
-                              if(state is LoadedSiteState){
-                                return SearchField<Site>(
-                                  controller: siteController,
-                
-                                  searchInputDecoration: const InputDecoration(
-                                      hintText: 'Séléctionner le site',
-                                      contentPadding: EdgeInsets.all(10)
-                                      //prefixIcon: Icon(CupertinoIcons.number),
-                                      ),
-                                  itemHeight: 40,
-                                  maxSuggestionsInViewPort: 5,
-                                  textInputAction: TextInputAction.next,
-                                  suggestionsDecoration: SuggestionDecoration(
-                                      color: whiteColor,
-                                      borderRadius: BorderRadius.circular(10),
-                                      padding: const EdgeInsets.all(10)),
-                                  suggestionStyle: const TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: rubikFontRegular,
-                                      fontWeight: FontWeight.w400,
-                                      color: secondaryColor),
-                                  suggestions: state.sites.map((site) => SearchFieldListItem<Site>(site.siteCode.toString() , item: site)).toList()
-                                  );
-                              }else if(state is LoadingSiteState){
-                                return const CircularProgressIndicator();
-                              }else if(state is ErrorSiteState){
-                                return const CircularProgressIndicator();
-                              }
-
-                              return const CircularProgressIndicator();
-                              
+                          SearchableFieldSiteForAddVisite(
+                            onSubmit: (value) {
+                              site = value;
                             },
                           ),
 
@@ -150,6 +145,13 @@ class AddVisitePage extends StatelessWidget {
                             controller: commentController,
                             maxLength: 500,
                             maxLines: 5,
+                            validator: (value) {
+                              if(value!.isEmpty){
+                                return "Ecrivez votre commentaire";
+                              }
+
+                              return null;
+                            },
                             textInputAction: TextInputAction.newline,
                             decoration: const InputDecoration(
                                 hintText: 'Commentaire',
@@ -164,7 +166,13 @@ class AddVisitePage extends StatelessWidget {
                           ),
 
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              
+                              if(keyFormAddNewVisite.currentState!.validate()){
+                                final Visite visite = Visite(indexCompteur: int.parse(indexController.text), commentaire: commentController.text, site: site);
+                                BlocProvider.of<VisiteBloc>(context).add(AddNewVisiteEvent(visite: visite, file: file));
+                              }
+                            },
                             child: Container(
                                 height: 70,
                                 width: 200,
@@ -192,5 +200,8 @@ class AddVisitePage extends StatelessWidget {
         },
       ),
     );
+
+
+    
   }
 }

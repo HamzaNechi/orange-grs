@@ -17,7 +17,7 @@ class ItemListVisiteWidget extends StatelessWidget {
 
 
     DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-    String formattedDate = dateFormat.format(visite.dateInsertion);
+    String formattedDate = dateFormat.format(visite.dateInsertion!);
     bool isAdmin = false;
     return InkWell(
       onTap: () {
@@ -50,7 +50,7 @@ class ItemListVisiteWidget extends StatelessWidget {
                   _buildLineInfo('Site', visite.site.siteCode!,context),
       
       
-                  _buildLineInfo('Responsable', visite.responsable,context),
+                  _buildLineInfo('Responsable', visite.responsable!,context),
       
       
                   _buildLineInfo('Date', formattedDate ,context),

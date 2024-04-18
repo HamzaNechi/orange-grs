@@ -5,18 +5,18 @@ class Visite extends Equatable{
 
   final int? visiteId;
   final int indexCompteur;
-  final String photoCompteur;
-  final DateTime dateInsertion;
+  final String? photoCompteur;
+  final DateTime? dateInsertion;
   final String commentaire;
-  final String responsable;
+  final String? responsable;
   final Site site;
 
-  const Visite({required this.visiteId, 
+  const Visite({this.visiteId, 
   required this.indexCompteur, 
-  required this.photoCompteur, 
-  required this.dateInsertion, 
+  this.photoCompteur, 
+  this.dateInsertion, 
   required this.commentaire, 
-  required this.responsable, 
+  this.responsable, 
   required this.site
   });
   

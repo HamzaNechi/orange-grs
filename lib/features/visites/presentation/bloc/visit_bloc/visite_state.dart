@@ -33,3 +33,7 @@ final class ErrorVisiteState extends VisiteState{
 }
 
 final class ExpiredTokenState extends VisiteState{}
+
+
+
+final class AddedNewVisiteState extends VisiteState{}

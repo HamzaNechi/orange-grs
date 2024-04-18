@@ -2,14 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/strings/fonts.dart';
-import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/bloc/image_picker_bloc.dart';
-import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/bloc/image_picker_state.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/image_picker_bloc.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/image_picker_state.dart';
 
 class AddImageWidget extends StatelessWidget {
+  final ValueChanged<XFile> onChoose;
   final double heightContainer;
-  const AddImageWidget({super.key, required this.heightContainer});
+  const AddImageWidget({super.key, required this.heightContainer, required this.onChoose});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,9 @@ class AddImageWidget extends StatelessWidget {
                         strokeAlign: BorderSide.strokeAlignInside)),
                 child: BlocBuilder<ImagePickerBloc, ImagePickerState>(
                   builder: (context, state) {
+                    if(state.file != null){
+                      onChoose(state.file!);
+                    }
                     return state.file == null ? const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

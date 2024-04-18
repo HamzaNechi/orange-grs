@@ -3,12 +3,12 @@ import 'package:orange_grs/features/visites/domain/entities/visite.dart';
 
 class VisiteModel extends Visite{
   const VisiteModel({
-    required super.visiteId, 
+    super.visiteId, 
     required super.indexCompteur, 
-    required super.photoCompteur, 
-    required super.dateInsertion, 
+    super.photoCompteur, 
+    super.dateInsertion, 
     required super.commentaire, 
-    required super.responsable, 
+    super.responsable, 
     required super.site});
 
 

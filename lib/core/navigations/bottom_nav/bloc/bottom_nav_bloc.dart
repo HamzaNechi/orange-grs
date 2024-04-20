@@ -18,6 +18,8 @@ class BottomNavBloc extends Bloc<BottomNavEvent, BottomNavState> {
           case 2 : emit(const BottomNavVisiteWidgetState(titleAppBar: "Visites", index: 2, page: ListVisite()));
           break;
         }
+      }else if(event is ShowProfileEvent){
+        emit(ShowProfileState(showProfileAnswer: event.showProfile));
       }
     });
   }

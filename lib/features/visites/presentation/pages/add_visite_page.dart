@@ -36,15 +36,7 @@ class AddVisitePage extends StatelessWidget {
             return double.tryParse(s) != null;
           }
 
-          BlocListener<VisiteBloc, VisiteState>(listener: (context, state) {  
-            if(state is ErrorVisiteState){
-              SnackbarMessage().showErrorSnackBar(message: state.message, context: context);
-            }else if(state is AddedNewVisiteState){
-              indexController.text = "";
-              commentController.text = "";
-              SnackbarMessage().showSuccessSnackBar(message: "visite added", context: context);
-            }
-          },);
+          
 
 
           return SingleChildScrollView(
@@ -189,6 +181,19 @@ class AddVisitePage extends StatelessWidget {
                                   ),
                                 )),
                           ),
+
+
+                          BlocListener<VisiteBloc, VisiteState>(listener: (context, state) {  
+                            if(state is ErrorVisiteState){
+                              SnackbarMessage().showErrorSnackBar(message: state.message, context: context);
+                            }else if(state is AddedNewVisiteState){
+                              indexController.text = "";
+                              commentController.text = "";
+                              SnackbarMessage().showSuccessSnackBar(message: "visite added", context: context);
+                            }
+                          },
+                          child: Container(),
+                          )
                         ],
                       ),
                     ),

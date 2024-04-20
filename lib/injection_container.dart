@@ -17,6 +17,7 @@ import 'package:orange_grs/features/visites/data/datasources/visite_remote_datas
 import 'package:orange_grs/features/visites/data/repositories/visite_repository_impl.dart';
 import 'package:orange_grs/features/visites/domain/repositories/visite_repository.dart';
 import 'package:orange_grs/features/visites/domain/usecases/add_new_visite_use_case.dart';
+import 'package:orange_grs/features/visites/domain/usecases/delete_visite_usecase.dart';
 import 'package:orange_grs/features/visites/domain/usecases/get_all_visite_use_case.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_bloc.dart';
 
@@ -55,10 +56,11 @@ Future<void> init() async {
 
 //! ------------------------------ Features - visites
 // Bloc
-  sl.registerFactory(() => VisiteBloc(getAllVisiteUseCase: sl(),addNewVisiteUseCase: sl()));
+  sl.registerFactory(() => VisiteBloc(getAllVisiteUseCase: sl(),addNewVisiteUseCase: sl(),deleteVisiteUseCase: sl()));
 // use case
   sl.registerLazySingleton(() => GetAllVisiteUseCase(sl()));
   sl.registerLazySingleton(() => AddNewVisiteUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteVisiteUseCase(sl()));
 // Repository
   sl.registerLazySingleton<VisiteRepository>(() => VisiteRepositoryImpl(visiteRemoteDataSource: sl(), networkInfo: sl()));
 //DataSource

@@ -18,10 +18,10 @@ class VisiteRepositoryImpl extends VisiteRepository{
 
 
   @override
-  Future<Either<Failure, List<Visite>>> getAllVisites() async{
+  Future<Either<Failure, List<Visite>>> getAllVisites(String? siteCode) async{
     if(await networkInfo.isConnected){
       try{
-        final remoteVisites = await visiteRemoteDataSource.getAllVisites();
+        final remoteVisites = await visiteRemoteDataSource.getAllVisites(siteCode);
         return Right(remoteVisites);
       }on ExpiredJwtException{
         return Left(ExpiredJwtFailure());
@@ -38,12 +38,32 @@ class VisiteRepositoryImpl extends VisiteRepository{
   }
 
   @override
-  Future<Either<Failure, bool>> addNewVisite(Visite visite, XFile file) async{
+  Future<Either<Failure, String>> addNewVisite(Visite visite, XFile file) async{
     if(await networkInfo.isConnected){
       try{
         final VisiteModel visiteModel = VisiteModel(indexCompteur: visite.indexCompteur,commentaire: visite.commentaire,site: visite.site);
         final statusAdd = await visiteRemoteDataSource.addNewVisite(visiteModel, file);
         return Right(statusAdd);
+      }on ExpiredJwtException{
+        return Left(ExpiredJwtFailure());
+      }on ServerException{
+        return Left(ServerFailure());
+      }on TimeoutException{
+        return Left(PanneServerFailure());
+      }on Exception{
+        return Left(PanneServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, String>> deleteVisite(int visiteId) async {
+    if(await networkInfo.isConnected){
+      try{
+        final statusDelete = await visiteRemoteDataSource.deleteVisite(visiteId);
+        return Right(statusDelete);
       }on ExpiredJwtException{
         return Left(ExpiredJwtFailure());
       }on ServerException{

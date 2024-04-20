@@ -57,6 +57,9 @@ class ListVisite extends StatelessWidget {
                     sharedPref.setString('token','');
                     SnackbarMessage().showErrorSnackBar(context: context, message: EXPIRED_TOKEN_FAILURE_MESSAGE);
                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginPage(),), (route) => false);
+                  }else if(state is DeletedVisiteState){
+                    BlocProvider.of<VisiteBloc>(context).add(GettAllVisitesEvent());
+                    SnackbarMessage().showSuccessSnackBar(context: context, message: "Visite supprimé");
                   }
                  },
               ),

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
+import 'package:orange_grs/core/navigations/bottom_nav/bloc/bottom_nav_bloc.dart';
+import 'package:orange_grs/core/navigations/bottom_nav/bloc/bottom_nav_event.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget{
   const AppBarWidget({super.key});
@@ -24,24 +27,29 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget{
             ),
             centerTitle: false,
 
-            actions: const [
+            actions: [
 
 
               
               
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(10),
                 child: Icon(CupertinoIcons.question_circle, color: secondaryColor, size: 25,),
               ),
 
 
               Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 20, 10),
-                child: CircleAvatar(
-                  
-                  backgroundColor: greyColor,
-                  radius: 20,
-                  child: Icon(CupertinoIcons.person_fill, color: whiteColor,size: 30,),
+                padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
+                child: InkWell(
+                  onTap: () {
+                    BlocProvider.of<BottomNavBloc>(context).add(const ShowProfileEvent(showProfile: true));
+                  },
+                  child: const CircleAvatar(
+                    
+                    backgroundColor: greyColor,
+                    radius: 20,
+                    child: Icon(CupertinoIcons.person_fill, color: whiteColor,size: 30,),
+                  ),
                 ),
               ),
             ],

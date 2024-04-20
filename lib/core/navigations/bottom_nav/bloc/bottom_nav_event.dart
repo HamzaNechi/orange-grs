@@ -18,3 +18,14 @@ class BottomNavOnChangeEvent extends BottomNavEvent{
   @override
   List<Object> get props => [index];
 }
+
+
+class ShowProfileEvent extends BottomNavEvent{
+  final bool showProfile;
+
+  const ShowProfileEvent({required this.showProfile});
+
+
+  @override
+  List<Object> get props => [showProfile];
+}

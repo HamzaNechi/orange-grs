@@ -12,7 +12,7 @@ class AddNewVisiteUseCase{
 
   AddNewVisiteUseCase(this.visiteRepository);
 
-  Future<Either<Failure, bool>> call(Visite visite, XFile file) async{
+  Future<Either<Failure, String>> call(Visite visite, XFile file) async{
     return await visiteRepository.addNewVisite(visite,file); //add new
   }
 }

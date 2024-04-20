@@ -11,8 +11,9 @@ import 'package:orange_grs/main.dart';
 
 
 abstract class VisiteRemoteDataSource{
-  Future<List<VisiteModel>> getAllVisites();
-  Future<bool> addNewVisite(VisiteModel visiteModel, XFile file);
+  Future<List<VisiteModel>> getAllVisites(String? siteCode);
+  Future<String> addNewVisite(VisiteModel visiteModel, XFile file);
+  Future<String> deleteVisite(int visiteId);
 }
 
 
@@ -21,8 +22,9 @@ class VisiteRemoteDataSourceImpl extends VisiteRemoteDataSource{
 
 
   @override
-  Future<List<VisiteModel>> getAllVisites() async{
-    const url = "$BASE_URL_PUBLIC/visites";
+  Future<List<VisiteModel>> getAllVisites(String? siteCode) async{
+    
+    final url = siteCode == null ? "$BASE_URL_PUBLIC/visites/" : "$BASE_URL_PUBLIC/visites/$siteCode" ;
     try{
       final response = await http.get(
         Uri.parse(url),
@@ -46,7 +48,7 @@ class VisiteRemoteDataSourceImpl extends VisiteRemoteDataSource{
   }
   
   @override
-  Future<bool> addNewVisite(VisiteModel visiteModel, XFile file) async{
+  Future<String> addNewVisite(VisiteModel visiteModel, XFile file) async{
     
     const url = "$BASE_URL_PUBLIC/visites";
 
@@ -67,13 +69,38 @@ class VisiteRemoteDataSourceImpl extends VisiteRemoteDataSource{
 
       final response = await request.send().timeout(const Duration(seconds: 10));
       if(response.statusCode == 200){
-        return true;
+        return Future.value("added");
       }else if(response.statusCode == 401){
           throw ExpiredJwtException();
       }else{
           throw ServerException();
       }
 
+    }on TimeoutException{
+      throw TimeoutException("Le serveur est actuellement en panne");
+    }
+  }
+  
+  @override
+  Future<String> deleteVisite(int visiteId) async{
+    final url = "$BASE_URL_PUBLIC/visites/admin/$visiteId";
+    try{
+      final response = await http.delete(
+        Uri.parse(url),
+        headers: {
+          "Content-Type" : "application/json",
+          "Authorization": "Bearer ${sharedPref.getString('token')}",
+          }
+        ).timeout(const Duration(seconds: 10));
+
+
+        if(response.statusCode == 200){
+          return Future.value("deleted");
+        }else if(response.statusCode == 401){
+          throw ExpiredJwtException();
+        }else{
+          throw ServerException();
+        }
     }on TimeoutException{
       throw TimeoutException("Le serveur est actuellement en panne");
     }

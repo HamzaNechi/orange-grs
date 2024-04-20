@@ -108,6 +108,7 @@ class LoginFormWidget extends StatelessWidget {
           SnackbarMessage().showErrorSnackBar(message: state.errorMessage, context: context);
         }else if (state is LoadedLoginState){
           sharedPref.setString('token', state.loginResponse.token);
+          sharedPref.setBool('isAdmin', state.loginResponse.isAdmin);
           SnackbarMessage().showSuccessSnackBar(message: "Connexion réussie", context: context);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNav(),));
         }

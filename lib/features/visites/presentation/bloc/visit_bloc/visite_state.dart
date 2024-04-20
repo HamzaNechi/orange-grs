@@ -37,3 +37,14 @@ final class ExpiredTokenState extends VisiteState{}
 
 
 final class AddedNewVisiteState extends VisiteState{}
+
+
+final class DeletedVisiteState extends VisiteState{
+  final int idVisite;
+
+  const DeletedVisiteState({required this.idVisite});
+
+  @override
+  List<Object> get props => [idVisite];
+}
+

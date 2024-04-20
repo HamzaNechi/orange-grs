@@ -12,16 +12,21 @@ class ListVisitWidget extends StatelessWidget {
       builder: (context, constraints) {
         final widgetHeigth = constraints.maxHeight;
         return ListView.builder(
-                itemCount: visites.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      SizedBox(height: widgetHeigth * 0.02,),
-                      ItemListVisiteWidget(constraints: constraints, visite: visites[index],),
-                    ],
-                  );
-                },
-                );
+          itemCount: visites.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                SizedBox(
+                  height: widgetHeigth * 0.02,
+                ),
+                ItemListVisiteWidget(
+                  constraints: constraints,
+                  visite: visites[index],
+                ),
+              ],
+            );
+          },
+        );
       },
     );
   }

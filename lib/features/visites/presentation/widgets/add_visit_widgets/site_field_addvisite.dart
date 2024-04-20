@@ -12,20 +12,27 @@ class SearchableFieldSiteForAddVisite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<SiteBloc, SiteState>(
                             builder: (context, state) {
                               if(state is LoadedSiteState){
-                                return SearchField<Site>(               
+                                return SearchField<Site>(             
                                   searchInputDecoration: const InputDecoration(
                                       hintText: 'Séléctionner le site',
                                       contentPadding: EdgeInsets.all(10)
                                       //prefixIcon: Icon(CupertinoIcons.number),
                                       ),
                                   itemHeight: 40,
+                                  validator: (p0) {
+                                    if(p0!.isEmpty){
+                                      return "Champ obligatoire !";
+                                    }
+
+                                    return null;
+                                  },
                                   maxSuggestionsInViewPort: 5,
                                   textInputAction: TextInputAction.next,
                                   onSuggestionTap: (p) {
+                                    //siteController.text = p.item!.siteCode!;
                                     onSubmit(p.item!);
                                   },
                                   suggestionsDecoration: SuggestionDecoration(

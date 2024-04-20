@@ -1,6 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:orange_grs/core/errors/failures.dart';
 import 'package:orange_grs/core/utils/global_function_utils.dart';
+import 'package:orange_grs/features/visites/domain/entities/visite.dart';
 import 'package:orange_grs/features/visites/domain/usecases/add_new_visite_use_case.dart';
+import 'package:orange_grs/features/visites/domain/usecases/delete_visite_usecase.dart';
 import 'package:orange_grs/features/visites/domain/usecases/get_all_visite_use_case.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_state.dart';
@@ -9,32 +13,54 @@ import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_
 class VisiteBloc extends Bloc<VisiteEvent, VisiteState> {
   final GetAllVisiteUseCase getAllVisiteUseCase;
   final AddNewVisiteUseCase addNewVisiteUseCase;
-  VisiteBloc({required this.getAllVisiteUseCase, required this.addNewVisiteUseCase}) : super(VisiteInitialState()) {
+  final DeleteVisiteUseCase deleteVisiteUseCase;
+  VisiteBloc({required this.getAllVisiteUseCase, required this.addNewVisiteUseCase, required this.deleteVisiteUseCase}) : super(VisiteInitialState()) {
     on<VisiteEvent>((event, emit) async{
       emit(LoadingVisiteState());
       if(event is GettAllVisitesEvent){
-        final failureOrVisites = await getAllVisiteUseCase.call();
-        failureOrVisites.fold(
-          (failure) {
-            String errorMessage = GlobalFunctionUtils.mapFailureToMessage(failure);
-            emit(ErrorVisiteState(message: errorMessage));
-          },
-          (visites) {
-            emit(LoadedVisiteState(visites: visites));
-          },);  
+        final failureOrVisites = await getAllVisiteUseCase.call(null);
+        emit(emitterLoadAndSearchVisit(failureOrVisites));  
+      }else if(event is SearchVisiteBySiteEvent){
+        final failureOrVisites = await getAllVisiteUseCase.call(event.codeSite);
+        emit(emitterLoadAndSearchVisit(failureOrVisites));  
       }else if(event is AddNewVisiteEvent){
         final failureOrAddedVisit = await addNewVisiteUseCase.call(event.visite, event.file);
+        emit(emitterDeleteAndAddVisite(failureOrAddedVisit, null));
+      }else if(event is DeleteVisiteByIdEvent){
+        final failureOrDeleted = await deleteVisiteUseCase.call(event.visiteId);
+        emit(emitterDeleteAndAddVisite(failureOrDeleted, event.visiteId));
+      }
+    });  
+  }
 
-        failureOrAddedVisit.fold(
+
+
+  VisiteState emitterLoadAndSearchVisit(Either<Failure, List<Visite>> failureOrVisites){
+      return failureOrVisites.fold(
           (failure) {
             String errorMessage = GlobalFunctionUtils.mapFailureToMessage(failure);
-            emit(ErrorVisiteState(message: errorMessage));
+            return ErrorVisiteState(message: errorMessage);
+          },
+          (visites) {
+            return LoadedVisiteState(visites: visites);
+          },);
+    }
+
+
+  VisiteState emitterDeleteAndAddVisite(Either<Failure, String> failureOrSuccess, int? visiteId){
+      return failureOrSuccess.fold(
+          (failure) {
+            String errorMessage = GlobalFunctionUtils.mapFailureToMessage(failure);
+            return ErrorVisiteState(message: errorMessage);
           }, 
-          (added) {
-            emit(AddedNewVisiteState());
+          (success) {
+            print("sucess body string add and delete visite $success");
+            if(success == "deleted" && visiteId != null){
+              return DeletedVisiteState(idVisite: visiteId);
+            }else{
+              return AddedNewVisiteState();
+            }
           }
           );
-      }
-    });
-  }
+    }
 }

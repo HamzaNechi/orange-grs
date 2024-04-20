@@ -22,3 +22,26 @@ class AddNewVisiteEvent extends VisiteEvent{
   @override
   List<Object> get props => [visite, file];
 }
+
+
+class SearchVisiteBySiteEvent extends VisiteEvent{
+  final String codeSite;
+
+  const SearchVisiteBySiteEvent({required this.codeSite});
+
+  @override
+  List<Object> get props => [codeSite];
+}
+
+class DeleteVisiteByIdEvent extends VisiteEvent{
+  final int visiteId;
+
+  const DeleteVisiteByIdEvent({required this.visiteId});
+
+  @override
+  List<Object> get props => [visiteId];
+}
+
+
+
+

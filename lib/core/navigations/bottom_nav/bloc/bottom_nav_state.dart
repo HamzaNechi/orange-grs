@@ -45,3 +45,15 @@ class BottomNavVisiteWidgetState extends BottomNavState{
   @override
   List<Object> get props => [titleAppBar, index, page];
 }
+
+
+
+class ShowProfileState extends BottomNavState{
+  final bool showProfileAnswer;
+
+  const ShowProfileState({required this.showProfileAnswer});
+
+
+  @override
+  List<Object> get props => [showProfileAnswer];
+}

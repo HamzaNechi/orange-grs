@@ -14,6 +14,7 @@ final class LoadingLoginState extends LoginState{}
 
 
 final class LoadedLoginState extends LoginState{
+  
   final LoginResponse loginResponse;
 
   const LoadedLoginState({required this.loginResponse});

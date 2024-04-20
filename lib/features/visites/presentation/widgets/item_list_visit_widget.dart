@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/features/visites/domain/entities/visite.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_bloc.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
+import 'package:orange_grs/main.dart';
 
 class ItemListVisiteWidget extends StatelessWidget {
   final Visite visite;
@@ -18,10 +22,10 @@ class ItemListVisiteWidget extends StatelessWidget {
 
     DateFormat dateFormat = DateFormat('dd/MM/yyyy');
     String formattedDate = dateFormat.format(visite.dateInsertion!);
-    bool isAdmin = false;
+    bool isAdmin = sharedPref.getBool('isAdmin')!;
     return InkWell(
       onTap: () {
-        print('goo details page');
+        print('goo details page isAdmin = ${isAdmin}');
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -29,7 +33,7 @@ class ItemListVisiteWidget extends StatelessWidget {
           Container(
             width: parentWidth * 0.95,
             // ignore: dead_code
-            height: isAdmin ? parentHeight * 0.285 : parentHeight * 0.215,
+            height: isAdmin ? parentHeight * 0.305 : parentHeight * 0.215,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
@@ -57,7 +61,7 @@ class ItemListVisiteWidget extends StatelessWidget {
       
                   Visibility(
                     visible: isAdmin,
-                    child: _buildControlePanelAdmin(parentHeight, parentWidth))
+                    child: _buildControlePanelAdmin(parentHeight, parentWidth, context, visite.visiteId!))
                   
                 ],
               ),
@@ -83,7 +87,7 @@ class ItemListVisiteWidget extends StatelessWidget {
   }
 
 
-  Widget _buildControlePanelAdmin(double parentHeight, double parentWidth){
+  Widget _buildControlePanelAdmin(double parentHeight, double parentWidth, BuildContext context, int idVisite){
     return Column(
       children: [
         SizedBox(height: parentHeight * 0.008,),
@@ -95,6 +99,7 @@ class ItemListVisiteWidget extends StatelessWidget {
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
 
                     InkWell(
@@ -121,7 +126,7 @@ class ItemListVisiteWidget extends StatelessWidget {
 
                     InkWell(
                       onTap: () {
-                        
+                        BlocProvider.of<VisiteBloc>(context).add(DeleteVisiteByIdEvent(visiteId: idVisite));
                       },
                       child: Container(
                         width: parentWidth * 0.08,

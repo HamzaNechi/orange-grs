@@ -8,7 +8,7 @@ class GetAllVisiteUseCase{
 
   GetAllVisiteUseCase(this.visiteRepository);
 
-  Future<Either<Failure, List<Visite>>> call() async{
-    return await visiteRepository.getAllVisites();
+  Future<Either<Failure, List<Visite>>> call(String? siteCode) async{
+    return await visiteRepository.getAllVisites(siteCode);
   }
 }

@@ -7,7 +7,7 @@ class GetNombreFactureReel{
 
   GetNombreFactureReel(this.siteRepository);
 
-  Future<Either<Failure, int>> call(int siteId) async{
+  Future<Either<Failure, Map<String, dynamic>>> call(int siteId) async{
     return await siteRepository.getNombreFactureReelen6Mois(siteId);
   }
 }

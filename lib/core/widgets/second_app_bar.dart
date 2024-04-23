@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
+import 'package:orange_grs/core/navigations/bottom_nav/bloc/bottom_nav_bloc.dart';
+import 'package:orange_grs/core/navigations/bottom_nav/bloc/bottom_nav_event.dart';
 import 'package:orange_grs/core/strings/fonts.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
 
@@ -23,7 +25,7 @@ class SecondAppBarWidget extends StatelessWidget implements PreferredSizeWidget{
               }
               Navigator.pop(context);
             }, 
-            icon: const Icon(Icons.keyboard_backspace_outlined, color: secondaryColor, size: 30,)),
+            icon: const Icon(Icons.arrow_back, color: secondaryColor, size: 30,)),
             title: title != null ? Text(title!, style: const TextStyle(
                 fontSize: 17,
                 fontFamily: rubikFontSemiBold,
@@ -41,13 +43,18 @@ class SecondAppBarWidget extends StatelessWidget implements PreferredSizeWidget{
               ) : const SizedBox(),
 
 
-              const Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 20, 10),
-                child: CircleAvatar(
-                  
-                  backgroundColor: greyColor,
-                  radius: 20,
-                  child: Icon(CupertinoIcons.person_fill, color: whiteColor,size: 30,),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
+                child: InkWell(
+                  onTap: () {
+                    BlocProvider.of<BottomNavBloc>(context).add(const ShowProfileEvent(showProfile: true));
+                  },
+                  child: const CircleAvatar(
+                    
+                    backgroundColor: greyColor,
+                    radius: 20,
+                    child: Icon(CupertinoIcons.person_fill, color: whiteColor,size: 30,),
+                  ),
                 ),
               ),
             ],

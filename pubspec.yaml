@@ -31,6 +31,7 @@ dependencies:
   flutter_localization:  ^0.2.0
   image_picker:
   searchfield: ^1.0.1
+  get: ^4.6.6
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +49,7 @@ flutter:
     - assets/
     - assets/images/logo.png
     - assets/animations/
+    - assets/images/compteur.jpg
 
   fonts :
      - family: 'Rubik-Medium'

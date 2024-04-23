@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/features/visites/domain/entities/visite.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_bloc.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
+import 'package:orange_grs/features/visites/presentation/pages/detail_visite_page.dart';
 import 'package:orange_grs/main.dart';
 
 class ItemListVisiteWidget extends StatelessWidget {
@@ -25,7 +24,7 @@ class ItemListVisiteWidget extends StatelessWidget {
     bool isAdmin = sharedPref.getBool('isAdmin')!;
     return InkWell(
       onTap: () {
-        print('goo details page isAdmin = ${isAdmin}');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailVisitePage(visite: visite,),));
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

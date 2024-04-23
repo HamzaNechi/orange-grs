@@ -22,11 +22,12 @@ final class LoadedSiteState extends SiteState {
 
 final class NombreFactureReelEn6MoisState extends SiteState {
   final int nombre;
+  final String district;
 
-  const NombreFactureReelEn6MoisState({required this.nombre});
+  const NombreFactureReelEn6MoisState({required this.nombre,required this.district});
 
   @override
-  List<Object> get props => [nombre];
+  List<Object> get props => [nombre, district];
 }
 
 

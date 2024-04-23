@@ -57,7 +57,7 @@ class SiteRepositoryImpl implements SiteRepository{
   }
   
   @override
-  Future<Either<Failure, int>> getNombreFactureReelen6Mois(int siteId) async{
+  Future<Either<Failure, Map<String, dynamic>>> getNombreFactureReelen6Mois(int siteId) async{
     if(await networkInfo.isConnected){
       try{
         final NumberOfReelInvoice = await remoteDataSource.getNombreFactureReelEn6Mois(siteId);
@@ -74,5 +74,6 @@ class SiteRepositoryImpl implements SiteRepository{
       return Left(OfflineFailure());
     }
   }
+
 
 }

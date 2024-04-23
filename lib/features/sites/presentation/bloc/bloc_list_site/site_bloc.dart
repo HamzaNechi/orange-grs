@@ -20,14 +20,14 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
       emit(LoadingSiteState());
 
       if(event is NombreFactureReelEvent){
-        final Either<Failure, int> nb = await getNombreFactureReel(event.siteIdd);
+        final Either<Failure, Map<String, dynamic>> nb = await getNombreFactureReel(event.siteIdd);
         nb.fold(
           (failure){
             String errorMessage = GlobalFunctionUtils.mapFailureToMessage(failure);
             emit(ErrorSiteState(message: errorMessage));
           }, 
           (nbFR) {
-            emit(NombreFactureReelEn6MoisState(nombre: nbFR));
+            emit(NombreFactureReelEn6MoisState(nombre: nbFR['invoices'], district: nbFR['district']));
           }
           );
         

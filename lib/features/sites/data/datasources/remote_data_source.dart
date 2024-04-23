@@ -12,7 +12,7 @@ import 'package:orange_grs/main.dart';
 abstract class SiteRemoteDataSource{
   Future<List<SiteModel>> getAllSites(String? code);
   Future<List<FactureSiteModel>> getAllFactureSites(int siteId);
-  Future<int> getNombreFactureReelEn6Mois(int siteId);
+  Future<Map<String, dynamic>> getNombreFactureReelEn6Mois(int siteId);
 }
 
 
@@ -79,7 +79,7 @@ class SiteRemoteDataSourceImpl implements SiteRemoteDataSource{
   }
   
   @override
-  Future<int> getNombreFactureReelEn6Mois(int siteId) async {
+  Future<Map<String, dynamic>> getNombreFactureReelEn6Mois(int siteId) async {
     final uri = Uri.parse("$BASE_URL_PUBLIC/invoices/type/$siteId");
 
     try{
@@ -93,7 +93,7 @@ class SiteRemoteDataSourceImpl implements SiteRemoteDataSource{
 
 
       if(response.statusCode == 200){
-        int decodeJsonData = jsonDecode(response.body) as int;
+        Map<String, dynamic> decodeJsonData = jsonDecode(response.body) as Map<String, dynamic>;
         return decodeJsonData;
       }else if(response.statusCode == 401){
         throw ExpiredJwtException();

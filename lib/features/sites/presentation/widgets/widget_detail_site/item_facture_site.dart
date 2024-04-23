@@ -12,6 +12,14 @@ class ItemFactureSite extends StatelessWidget {
   Widget build(BuildContext context) {
     final parentWidth = constraints.maxWidth;
     final parentHeight = constraints.maxHeight;
+
+
+    double convertEnTnd(double montant){
+      return montant/1000;
+    }
+
+
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -42,12 +50,12 @@ class ItemFactureSite extends StatelessWidget {
                 _buildLineInfo('Consommation', "${facture.consommationKwh} Kwh",context),
 
 
-                _buildLineInfo('Montant', "${facture.montantConsommation} TND",context),
+                _buildLineInfo('Montant', "${convertEnTnd(facture.montantConsommation!)} TND",context),
 
 
-                _buildLineInfo('Crédit', "${facture.credit} TND",context),
+                _buildLineInfo('Crédit', "${convertEnTnd(facture.credit!)} TND",context),
 
-                _buildLineInfo('Tva', "${facture.tva} TND",context),
+                _buildLineInfo('Tva', "${convertEnTnd(facture.tva!)} TND",context),
 
 
 
@@ -66,7 +74,7 @@ class ItemFactureSite extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("${facture.finalSolde} TND", style: TextStyle(
+                      Text("${convertEnTnd(facture.finalSolde)} TND", style: TextStyle(
                           color: primaryColor.withOpacity(0.8), 
                           fontWeight: FontWeight.w600, 
                           fontFamily: rubikFontSemiBold,

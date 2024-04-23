@@ -7,15 +7,15 @@ class SiteModel extends Site{
   factory SiteModel.fromJson(Map<String, dynamic> json){
     return SiteModel(
       siteId: json['siteId'],
-      elecType: json['elecTypeId']?['description'] ?? '', 
-      siteCode: json['siteCode'], 
+      elecType: json['elecTypeId']?['elecTypeId'] ?? 0, 
+      siteCode: json['siteCode'] ?? 'sans code', 
       siteRef: json['elecMeterRef'],
-      configuration: json['configuration'],
-      direction: json['directionId']?['description'] ?? '',
+      configuration: json['configuration'] ?? 'sans configuration',
+      direction: json['directionId']?['description'] ?? 'sans direction',
       estimationConsom: json['estimatedConsumption'],
-      networkType: json['networkTypeId']?['description'] ?? '',
+      networkType: json['networkTypeId']?['description'] ?? 'sans network type',
       status: json['statusId']?['description'] ?? '',
-      siteName: json['siteName'] ?? '',
+      siteName: json['siteName'] ?? 'sans name',
       isSharing: json['isSharing']
       );
   }

@@ -101,7 +101,7 @@ class SiteListPage extends StatelessWidget {
              TextFormField(
               controller: serachController,
               decoration: const InputDecoration(
-                hintText: 'Chercher par code site',
+                hintText: 'Chercher par code site ou référence',
                 prefixIcon: Icon(CupertinoIcons.search),
               ),
               onChanged: (value) {

@@ -2,6 +2,7 @@ import 'package:orange_grs/core/navigations/bottom_nav/bloc/bottom_nav_bloc.dart
 import 'package:orange_grs/features/auth/data/datasources/remote_datasource_auth.dart';
 import 'package:orange_grs/features/auth/data/repositorie/auth_repository_impl.dart';
 import 'package:orange_grs/features/auth/domain/repositorie/auth_repository.dart';
+import 'package:orange_grs/features/auth/domain/usecases/get_connecteduser_use_case.dart';
 import 'package:orange_grs/features/auth/domain/usecases/signin_use_case.dart';
 import 'package:orange_grs/features/auth/presentation/blocs/login_bloc/login_bloc_bloc.dart';
 import 'package:orange_grs/features/sites/data/datasources/remote_data_source.dart';
@@ -72,9 +73,10 @@ Future<void> init() async {
 
 //!-----------------------------------Features - Auth
 // bloc
-  sl.registerFactory(() => LoginBlocBloc(signInUseCase: sl()));
+  sl.registerFactory(() => LoginBlocBloc(signInUseCase: sl(), userConnected: sl()));
 // use case
   sl.registerLazySingleton(() => SignInUseCase(sl()));
+  sl.registerLazySingleton(() => GetConnectedUserUseCase(sl()));
 // repository
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(authRemoteDataSource: sl(), networkInfo: sl()) );
 // datasource

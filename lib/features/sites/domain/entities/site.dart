@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 class Site extends Equatable{
 
   final int? siteId;
-  final String elecType;
+  final int elecType;
   final String? siteCode;
   final String siteRef;
   final String? direction;

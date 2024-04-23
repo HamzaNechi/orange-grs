@@ -190,6 +190,8 @@ class AddVisitePage extends StatelessWidget {
                               indexController.text = "";
                               commentController.text = "";
                               SnackbarMessage().showSuccessSnackBar(message: "visite added", context: context);
+                              BlocProvider.of<VisiteBloc>(context).add(GettAllVisitesEvent());
+                              Navigator.pop(context);
                             }
                           },
                           child: Container(),

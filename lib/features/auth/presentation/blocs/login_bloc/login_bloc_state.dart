@@ -32,3 +32,26 @@ final class ErrorLoginState extends LoginState{
   @override
   List<Object> get props => [errorMessage];
 }
+
+
+final class GetConnectedUserState extends LoginState{
+  final User user;
+
+  const GetConnectedUserState({required this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
+
+final class ErrorProfileState extends LoginState{
+  final String errorMessage;
+
+  const ErrorProfileState({required this.errorMessage});
+
+  @override
+  List<Object> get props => [errorMessage];
+}
+
+
+final class ExpiredJwtState extends LoginState{}

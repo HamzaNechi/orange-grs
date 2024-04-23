@@ -34,7 +34,7 @@ class SiteListItemWidgetMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final siteType = site.elecType == "Basse tension" ? 'BT' : 'HT';
+    final siteType = site.elecType == 1 ? 'BT' : 'MT';
     return LayoutBuilder(
       builder: (context, constraints) {
         double localWidth = constraints.maxWidth;

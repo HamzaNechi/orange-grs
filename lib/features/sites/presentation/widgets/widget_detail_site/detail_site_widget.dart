@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
@@ -9,6 +11,8 @@ import 'package:orange_grs/features/sites/domain/entities/site.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
 import 'package:orange_grs/main.dart';
 
+
+
 class SiteDetailWidget extends StatelessWidget {
   final Site site;
   const SiteDetailWidget({super.key, required this.site});
@@ -19,6 +23,13 @@ class SiteDetailWidget extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     final isSharing = site.isSharing == 0 ? 'Site partagé' : 'Site non partagé';
+
+
+    String normalizeString(String input) {
+      String fixedString = utf8.decode(input.codeUnits);
+      return fixedString; 
+    }
+
     return Padding(
       padding: EdgeInsets.all(screenHeight * 0.025),
       child: SingleChildScrollView(
@@ -55,7 +66,7 @@ class SiteDetailWidget extends StatelessWidget {
                       SizedBox(
                         height: screenHeight * 0.025,
                       ),
-                      buildItemDetail("Type", site.elecType == 1 ? 'BT' : 'HT'),
+                      buildItemDetail("Type", site.elecType == 1 ? 'BT' : 'MT'),
                       SizedBox(
                         height: screenHeight * 0.025,
                       ),
@@ -64,14 +75,39 @@ class SiteDetailWidget extends StatelessWidget {
                       BlocConsumer<SiteBloc, SiteState>(
                         builder: (context, state) {
                           if(state is NombreFactureReelEn6MoisState){
-                            if(state.nombre > 0){
-                              return buildItemDetailBadge(
-                              "Facture réelle", "< 6", 1);
+                            if("Résilié" != normalizeString(site.status)){
+                              if(state.nombre > 0){
+                                return Column(
+                                  children: [
+                                    buildItemDetailBadge(
+                                    "Facture réelle", "< 6", 1),
+
+                                    SizedBox(
+                                      height: screenHeight * 0.025,
+                                    ),
+
+
+                                    buildItemDetail("District", state.district),
+                                  ],
+                                );
+                              }else{
+                                return Column(
+                                  children: [
+                                    buildItemDetailBadge(
+                                    "Facture réelle", "> 6", 0),
+
+                                    SizedBox(
+                                      height: screenHeight * 0.025,
+                                    ),
+
+
+                                    buildItemDetail("District", state.district),
+                                  ],
+                                ); //7amra
+                              }
                             }else{
-                              return buildItemDetailBadge(
-                              "Facture réelle", "> 6", 0); //7amra
+                              return buildItemDetail("District", state.district);
                             }
-          
                           }
                           
                           return Container();
@@ -87,7 +123,7 @@ class SiteDetailWidget extends StatelessWidget {
                       SizedBox(
                         height: screenHeight * 0.025,
                       ),
-                      buildItemDetail("Status", site.status),
+                      buildItemDetail("Status", normalizeString(site.status)),
                       SizedBox(
                         height: screenHeight * 0.025,
                       ),

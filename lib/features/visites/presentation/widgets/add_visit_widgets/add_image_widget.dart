@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/strings/fonts.dart';
+import 'package:orange_grs/core/widgets/snackbar.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/image_picker_bloc.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/image_picker_state.dart';
 
@@ -13,8 +15,12 @@ class AddImageWidget extends StatelessWidget {
   final double heightContainer;
   const AddImageWidget({super.key, required this.heightContainer, required this.onChoose});
 
+
+  
+
   @override
   Widget build(BuildContext context) {
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -39,12 +45,23 @@ class AddImageWidget extends StatelessWidget {
                         style: BorderStyle.solid,
                         width: 3,
                         strokeAlign: BorderSide.strokeAlignInside)),
-                child: BlocBuilder<ImagePickerBloc, ImagePickerState>(
-                  builder: (context, state) {
-                    if(state.file != null){
-                      onChoose(state.file!);
+                child: BlocConsumer<ImagePickerBloc, ImagePickerState>(
+
+                  listener: (context, state) {
+                    if(state is ErrorImagePickedState){
+                      SnackbarMessage().showErrorSnackBar(message: "Une erreur inattendue s'est produite lors du choix de l'image. Veuillez réessayer ultérieurement.", context: context);
                     }
-                    return state.file == null ? const Row(
+                  },
+                  builder: (context, state) {
+
+                    if(state is ImagePickedState){
+                      onChoose(state.file);
+                      return Image.file(
+                        File(state.file.path.toString()),
+                        fit: BoxFit.cover,
+                        );
+                    }else{
+                      return const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -65,10 +82,9 @@ class AddImageWidget extends StatelessWidget {
                               color: whiteColor),
                         ),
                       ],
-                    ) : Image.file(
-                      File(state.file!.path.toString()),
-                      fit: BoxFit.cover,
-                      );
+                    ) ;
+                    }
+                    
                   },
                 ),
               ),

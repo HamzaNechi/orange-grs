@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:orange_grs/core/errors/failures.dart';
 import 'package:orange_grs/core/strings/failures.dart';
 
@@ -12,5 +14,12 @@ class GlobalFunctionUtils{
       case ExpiredJwtFailure: return EXPIRED_TOKEN_FAILURE_MESSAGE;
       default: return "Unexpected Error, Please try again later ";
     }
+  }
+
+
+
+  static String normalizeString(String input) {
+      String fixedString = utf8.decode(input.codeUnits);
+      return fixedString; 
   }
 }

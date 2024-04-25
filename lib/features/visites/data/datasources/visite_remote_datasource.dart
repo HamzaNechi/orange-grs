@@ -62,6 +62,9 @@ class VisiteRemoteDataSourceImpl extends VisiteRemoteDataSource{
       request.fields['indexCompteur'] = visiteModel.indexCompteur.toString();
       request.fields['commentaire'] = visiteModel.commentaire;
       request.fields['siteId'] = visiteModel.site.siteId.toString();
+      request.fields['otn'] = visiteModel.otn.toString();
+      request.fields['oo'] = visiteModel.oo.toString();
+      request.fields['tt'] = visiteModel.tt.toString();
       request.headers['Authorization'] = 'Bearer ${sharedPref.getString('token')}';
       request.files.add(
         await http.MultipartFile.fromPath('photo', file.path),

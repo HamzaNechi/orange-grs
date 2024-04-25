@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/strings/failures.dart';
 import 'package:orange_grs/core/strings/fonts.dart';
+import 'package:orange_grs/core/utils/global_function_utils.dart';
 import 'package:orange_grs/core/widgets/snackbar.dart';
 import 'package:orange_grs/features/auth/presentation/pages/login_page.dart';
 import 'package:orange_grs/features/sites/domain/entities/site.dart';
@@ -22,13 +21,7 @@ class SiteDetailWidget extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
-    final isSharing = site.isSharing == 0 ? 'Site partagé' : 'Site non partagé';
-
-
-    String normalizeString(String input) {
-      String fixedString = utf8.decode(input.codeUnits);
-      return fixedString; 
-    }
+    final isSharing = site.isSharing == 1 ? 'Site partagé' : 'Site non partagé';
 
     return Padding(
       padding: EdgeInsets.all(screenHeight * 0.025),
@@ -75,7 +68,7 @@ class SiteDetailWidget extends StatelessWidget {
                       BlocConsumer<SiteBloc, SiteState>(
                         builder: (context, state) {
                           if(state is NombreFactureReelEn6MoisState){
-                            if("Résilié" != normalizeString(site.status)){
+                            if("Résilié" != GlobalFunctionUtils.normalizeString(site.status)){
                               if(state.nombre > 0){
                                 return Column(
                                   children: [
@@ -123,7 +116,7 @@ class SiteDetailWidget extends StatelessWidget {
                       SizedBox(
                         height: screenHeight * 0.025,
                       ),
-                      buildItemDetail("Status", normalizeString(site.status)),
+                      buildItemDetail("Status", GlobalFunctionUtils.normalizeString(site.status)),
                       SizedBox(
                         height: screenHeight * 0.025,
                       ),

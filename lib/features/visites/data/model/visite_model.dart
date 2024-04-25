@@ -9,7 +9,10 @@ class VisiteModel extends Visite{
     super.dateInsertion, 
     required super.commentaire, 
     super.responsable, 
-    required super.site});
+    required super.site, 
+    required super.otn, 
+    required super.oo, 
+    required super.tt});
 
 
     factory VisiteModel.fromJson(Map<String, dynamic> json){
@@ -21,7 +24,10 @@ class VisiteModel extends Visite{
         dateInsertion: dateTimeInsertion, 
         commentaire: json['commentaire'], 
         responsable: json['login']['login'], 
-        site: SiteModel.fromJson(json['site']));
+        site: SiteModel.fromJson(json['site']), 
+        otn: json['otn'], 
+        oo: json['oo'], 
+        tt: json['tt']);
     }
 
 

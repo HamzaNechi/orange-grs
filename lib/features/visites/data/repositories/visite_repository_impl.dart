@@ -41,7 +41,13 @@ class VisiteRepositoryImpl extends VisiteRepository{
   Future<Either<Failure, String>> addNewVisite(Visite visite, XFile file) async{
     if(await networkInfo.isConnected){
       try{
-        final VisiteModel visiteModel = VisiteModel(indexCompteur: visite.indexCompteur,commentaire: visite.commentaire,site: visite.site);
+        final VisiteModel visiteModel = VisiteModel(
+          indexCompteur: visite.indexCompteur,
+          commentaire: visite.commentaire,
+          site: visite.site, 
+          otn: visite.otn, 
+          oo: visite.oo, 
+          tt: visite.tt);
         final statusAdd = await visiteRemoteDataSource.addNewVisite(visiteModel, file);
         return Right(statusAdd);
       }on ExpiredJwtException{

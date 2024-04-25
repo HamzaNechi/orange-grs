@@ -31,7 +31,7 @@ dependencies:
   flutter_localization:  ^0.2.0
   image_picker:
   searchfield: ^1.0.1
-  get: ^4.6.6
+  badges:
 
 dev_dependencies:
   flutter_test:

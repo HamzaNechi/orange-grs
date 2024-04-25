@@ -10,6 +10,9 @@ class Visite extends Equatable{
   final String commentaire;
   final String? responsable;
   final Site site;
+  final int otn;
+  final int oo;
+  final int tt;
 
   const Visite({this.visiteId, 
   required this.indexCompteur, 
@@ -17,7 +20,10 @@ class Visite extends Equatable{
   this.dateInsertion, 
   required this.commentaire, 
   this.responsable, 
-  required this.site
+  required this.site,
+  required this.otn, 
+  required this.oo, 
+  required this.tt
   });
   
    

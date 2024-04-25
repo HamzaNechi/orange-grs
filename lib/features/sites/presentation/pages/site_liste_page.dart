@@ -86,10 +86,11 @@ class SiteListPage extends StatelessWidget {
   _searchBar(BoxConstraints constraints, BuildContext context) {
     final localHeight = constraints.maxHeight;
     final localWidth = constraints.maxWidth;
+    final heightSizedBox = MediaQuery.of(context).size.height > 700 ? localHeight * 0.17 : localHeight * 0.21;
     TextEditingController serachController = TextEditingController();
     return SizedBox(
       width: localWidth,
-      height: localHeight * 0.17,
+      height: heightSizedBox,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(

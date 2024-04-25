@@ -12,6 +12,7 @@ class ItemFactureSite extends StatelessWidget {
   Widget build(BuildContext context) {
     final parentWidth = constraints.maxWidth;
     final parentHeight = constraints.maxHeight;
+    final boxHeight = MediaQuery.of(context).size.height > 700 ? parentHeight * 0.38 : parentHeight *0.44 ;
 
 
     double convertEnTnd(double montant){
@@ -25,7 +26,7 @@ class ItemFactureSite extends StatelessWidget {
       children: [
         Container(
           width: parentWidth * 0.95,
-          height: parentHeight * 0.38,
+          height: boxHeight,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(

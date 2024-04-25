@@ -8,6 +8,7 @@ import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_bloc.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
 import 'package:orange_grs/features/visites/presentation/pages/add_visite_page.dart';
+import 'package:orange_grs/features/visites/presentation/widgets/loading_search_field.dart';
 import 'package:searchfield/searchfield.dart';
 
 class SearchBarListVisitWidget extends StatelessWidget {
@@ -56,12 +57,12 @@ class SearchBarListVisitWidget extends StatelessWidget {
                                   suggestions: state.sites.map((site) => SearchFieldListItem<Site>(site.siteCode.toString() , item: site)).toList()
                                   );
                               }else if(state is LoadingSiteState){
-                                return Container();
+                                return const LoadingSearchFieldWidget();
                               }else if(state is ErrorSiteState){
-                                return const CircularProgressIndicator();
+                                return const LoadingSearchFieldWidget();
                               }
 
-                              return Container();
+                              return const LoadingSearchFieldWidget();
                               
                             },
                           );

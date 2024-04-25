@@ -6,6 +6,7 @@ import 'package:orange_grs/features/visites/domain/entities/visite.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_bloc.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
 import 'package:orange_grs/features/visites/presentation/pages/detail_visite_page.dart';
+import 'package:orange_grs/features/visites/presentation/widgets/alert_confirmation_suppression_widget.dart';
 import 'package:orange_grs/main.dart';
 
 class ItemListVisiteWidget extends StatelessWidget {
@@ -17,11 +18,13 @@ class ItemListVisiteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final parentWidth = constraints.maxWidth;
     final parentHeight = constraints.maxHeight;
-
-
+    
     DateFormat dateFormat = DateFormat('dd/MM/yyyy');
     String formattedDate = dateFormat.format(visite.dateInsertion!);
     bool isAdmin = sharedPref.getBool('isAdmin')!;
+
+    final ifAdminHeightBox = isAdmin ? parentHeight * 0.305 : parentHeight * 0.215;
+    final boxHeight = MediaQuery.of(context).size.height > 700 ? ifAdminHeightBox : ifAdminHeightBox * 1.2 ;
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => DetailVisitePage(visite: visite,),));
@@ -32,7 +35,7 @@ class ItemListVisiteWidget extends StatelessWidget {
           Container(
             width: parentWidth * 0.95,
             // ignore: dead_code
-            height: isAdmin ? parentHeight * 0.305 : parentHeight * 0.215,
+            height: boxHeight,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
@@ -124,8 +127,18 @@ class ItemListVisiteWidget extends StatelessWidget {
 
 
                     InkWell(
-                      onTap: () {
-                        BlocProvider.of<VisiteBloc>(context).add(DeleteVisiteByIdEvent(visiteId: idVisite));
+                      onTap: () async{
+                        bool shouldDelete;
+                        shouldDelete = await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const DeleteConfirmationDialog();
+                          },
+                        );
+
+                        if(shouldDelete) {
+                          BlocProvider.of<VisiteBloc>(context).add(DeleteVisiteByIdEvent(visiteId: idVisite));
+                        }
                       },
                       child: Container(
                         width: parentWidth * 0.08,

@@ -15,7 +15,7 @@ class ProfileUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    print('height screen profile user = $screenHeight');
+    final spaceButtonLogoutHeight = MediaQuery.of(context).size.height > 700 ? screenHeight * 0.062: screenHeight * 0.05 ;
     return Material(
       child: BlocConsumer<LoginBlocBloc, LoginState>(
         listener: (context, state) {
@@ -226,7 +226,7 @@ class ProfileUserPage extends StatelessWidget {
                                 ),
 
                                 SizedBox(
-                                  height: screenHeight * 0.062,
+                                  height: spaceButtonLogoutHeight,
                                 ), //50px
 
                                 Padding(

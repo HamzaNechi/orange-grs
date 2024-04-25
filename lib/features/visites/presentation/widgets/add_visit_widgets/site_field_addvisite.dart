@@ -4,11 +4,13 @@ import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/strings/fonts.dart';
 import 'package:orange_grs/features/sites/domain/entities/site.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
+import 'package:orange_grs/features/visites/presentation/widgets/loading_search_field.dart';
 import 'package:searchfield/searchfield.dart';
 
 class SearchableFieldSiteForAddVisite extends StatelessWidget {
   final ValueChanged<Site> onSubmit;
-  const SearchableFieldSiteForAddVisite({super.key, required this.onSubmit});
+  final ValueChanged<bool> checkSharingSite;
+  const SearchableFieldSiteForAddVisite({super.key, required this.onSubmit, required this.checkSharingSite});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class SearchableFieldSiteForAddVisite extends StatelessWidget {
                               if(state is LoadedSiteState){
                                 return SearchField<Site>(             
                                   searchInputDecoration: const InputDecoration(
-                                      hintText: 'Séléctionner le site',
+                                      hintText: 'Séléctionner un site',
                                       contentPadding: EdgeInsets.all(10)
                                       //prefixIcon: Icon(CupertinoIcons.number),
                                       ),
@@ -34,7 +36,9 @@ class SearchableFieldSiteForAddVisite extends StatelessWidget {
                                   onSuggestionTap: (p) {
                                     //siteController.text = p.item!.siteCode!;
                                     onSubmit(p.item!);
+                                    checkSharingSite(p.item!.isSharing == 1);
                                   },
+                    
                                   suggestionsDecoration: SuggestionDecoration(
                                       color: whiteColor,
                                       borderRadius: BorderRadius.circular(10),
@@ -47,12 +51,12 @@ class SearchableFieldSiteForAddVisite extends StatelessWidget {
                                   suggestions: state.sites.map((site) => SearchFieldListItem<Site>(site.siteCode.toString() , item: site)).toList()
                                   );
                               }else if(state is LoadingSiteState){
-                                return const CircularProgressIndicator();
+                                return const LoadingSearchFieldWidget();
                               }else if(state is ErrorSiteState){
-                                return const CircularProgressIndicator();
+                                return const LoadingSearchFieldWidget();
                               }
 
-                              return const CircularProgressIndicator();
+                              return const LoadingSearchFieldWidget();
                               
                             },
                           );

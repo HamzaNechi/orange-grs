@@ -6,14 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/strings/fonts.dart';
+import 'package:orange_grs/core/strings/urls.dart';
 import 'package:orange_grs/core/widgets/snackbar.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/image_picker_bloc.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/image_picker_state.dart';
 
 class AddImageWidget extends StatelessWidget {
+  final String? pathImage;
   final ValueChanged<XFile> onChoose;
   final double heightContainer;
-  const AddImageWidget({super.key, required this.heightContainer, required this.onChoose});
+  const AddImageWidget({super.key, required this.heightContainer, required this.onChoose, this.pathImage});
 
 
   
@@ -61,7 +63,7 @@ class AddImageWidget extends StatelessWidget {
                         fit: BoxFit.cover,
                         );
                     }else{
-                      return const Row(
+                      return pathImage == null ? const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -82,7 +84,7 @@ class AddImageWidget extends StatelessWidget {
                               color: whiteColor),
                         ),
                       ],
-                    ) ;
+                    ) : Image.network("$BASE_URL_PUBLIC/api/images/$pathImage", fit: BoxFit.fill,);
                     }
                     
                   },

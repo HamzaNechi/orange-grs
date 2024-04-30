@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/strings/fonts.dart';
+import 'package:orange_grs/core/utils/global_function_utils.dart';
 import 'package:orange_grs/core/widgets/second_app_bar.dart';
 import 'package:orange_grs/core/widgets/snackbar.dart';
 import 'package:orange_grs/features/sites/domain/entities/site.dart';
@@ -14,8 +15,10 @@ import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_
 import 'package:orange_grs/features/visites/presentation/widgets/add_visit_widgets/add_image_widget.dart';
 import 'package:orange_grs/features/visites/presentation/widgets/add_visit_widgets/site_field_addvisite.dart';
 
-class AddVisitePage extends StatelessWidget {
-  const AddVisitePage({super.key});
+class UpdateVisitePage extends StatelessWidget {
+  final Visite visite;
+  const UpdateVisitePage({super.key, required this.visite});
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +28,14 @@ class AddVisitePage extends StatelessWidget {
     TextEditingController ooController = TextEditingController();
     TextEditingController ttController = TextEditingController();
     GlobalKey<FormState> keyFormAddNewVisite = GlobalKey<FormState>();
-    late Site? site;
-    late XFile? file;
-    bool isSharing = false;
-    String siteCode = '';
+    indexController.text = visite.indexCompteur.toString();
+    commentController.text = GlobalFunctionUtils.normalizeString(visite.commentaire);
+    otnController.text = visite.otn.toString();
+    ooController.text = visite.oo.toString();
+    ttController.text = visite.tt.toString();
+    Site? site = visite.site ;
+    XFile? file;
+    bool isSharing = visite.site.isSharing == 1;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: SecondAppBarWidget(contextX: context),
@@ -63,7 +70,7 @@ class AddVisitePage extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            'Enregistrer votre visite',
+                            'Modifier votre visite',
                             style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: rubikFontMedium,
@@ -88,9 +95,13 @@ class AddVisitePage extends StatelessWidget {
                     height: constraints.maxHeight * 0.05,
                   ),
 
-                  AddImageWidget(heightContainer: constraints.maxHeight * 0.16, onChoose: (value) {
-                    file = value;
-                  },),
+                  AddImageWidget(
+                    heightContainer: constraints.maxHeight * 0.16, 
+                    onChoose: (value) {
+                      file = value;
+                    },
+                    pathImage: visite.photoCompteur,
+                  ),
                   SizedBox(
                     height: constraints.maxHeight * 0.04,
                   ),
@@ -99,7 +110,23 @@ class AddVisitePage extends StatelessWidget {
                     child: Form(
                       key: keyFormAddNewVisite,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+
+
+                          //index compteur
+
+                          const Text(
+                            'Index',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: rubikFontMedium,
+                                fontWeight: FontWeight.w500,
+                                color: secondaryColor)),
+
+                              const SizedBox(height: 5,),
+
+
                           TextFormField(
                             controller: indexController,
                             keyboardType: TextInputType.number,
@@ -107,7 +134,7 @@ class AddVisitePage extends StatelessWidget {
                             enableSuggestions: true,
                             validator: (value) {
                               if(value!.isEmpty){
-                                return "Ecrivez votre commentaire";
+                                return "Champ obligatoire !";
                               }
 
                               if (!isNumeric(value)) {
@@ -129,11 +156,23 @@ class AddVisitePage extends StatelessWidget {
                           ),
 
 
+
+                          //site
+                          const Text(
+                            'Site',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: rubikFontMedium,
+                                fontWeight: FontWeight.w500,
+                                color: secondaryColor)),
+
+                              const SizedBox(height: 5,),
+
+
                           SearchableFieldSiteForAddVisite(
-                            siteCode: siteCode,
+                            siteCode: site!.siteCode,
                             onSubmit: (value) {
                               site = value;
-                              siteCode = value.siteCode!;
                             },
                             checkSharingSite: (value) {
                               isSharing = value;
@@ -144,11 +183,24 @@ class AddVisitePage extends StatelessWidget {
                           Visibility(
                             visible: isSharing,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
 
                                 const SizedBox(
                                   height: 8,
                                 ),
+
+
+                                //ampérage otn
+                                const Text(
+                                'Ampérage OTN',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: rubikFontMedium,
+                                    fontWeight: FontWeight.w500,
+                                    color: secondaryColor)),
+
+                                  const SizedBox(height: 5,),
 
 
                                 TextFormField(
@@ -173,6 +225,20 @@ class AddVisitePage extends StatelessWidget {
                                 ),
 
 
+                                //ampérage ooredoo
+
+
+                                const Text(
+                                'Ampérage OO',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: rubikFontMedium,
+                                    fontWeight: FontWeight.w500,
+                                    color: secondaryColor)),
+
+                                  const SizedBox(height: 5,),
+
+
                                 TextFormField(
                                   controller: ooController,
                                   textInputAction: TextInputAction.next,
@@ -193,6 +259,19 @@ class AddVisitePage extends StatelessWidget {
                                 const SizedBox(
                                   height: 8,
                                 ),
+
+
+                                //ampérage tunisie télécom
+
+                                const Text(
+                                'Ampérage TT',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: rubikFontMedium,
+                                    fontWeight: FontWeight.w500,
+                                    color: secondaryColor)),
+
+                                  const SizedBox(height: 5,),
 
 
                                 TextFormField(
@@ -216,6 +295,19 @@ class AddVisitePage extends StatelessWidget {
                           const SizedBox(
                             height: 8,
                           ),
+
+
+                          //commentaire
+
+                          const Text(
+                            'Commentaire',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: rubikFontMedium,
+                                fontWeight: FontWeight.w500,
+                                color: secondaryColor)),
+
+                              const SizedBox(height: 5,),
 
                           TextFormField(
                             controller: commentController,
@@ -241,69 +333,74 @@ class AddVisitePage extends StatelessWidget {
                             height: 16,
                           ),
 
-                          InkWell(
-                            onTap: () {
-                              if(isSharing){
-                                if(otnController.text.isEmpty){
-                                  otnController.text = "0";
-                                }else if(ooController.text.isEmpty){
-                                  ooController.text = "0";
-                                }else if(ttController.text.isEmpty){
-                                  ttController.text = "0";
-                                }
-                              }else{
-                                ttController.text = "0";
-                                ooController.text = "0";
-                                otnController.text = "0";
-                              }
-
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  if(isSharing){
+                                    if(otnController.text.isEmpty){
+                                      otnController.text = "0";
+                                    }else if(ooController.text.isEmpty){
+                                      ooController.text = "0";
+                                    }else if(ttController.text.isEmpty){
+                                      ttController.text = "0";
+                                    }
+                                  }else{
+                                    ttController.text = "0";
+                                    ooController.text = "0";
+                                    otnController.text = "0";
+                                  }
                               
-                              if(keyFormAddNewVisite.currentState!.validate() && site != null && file != null){
-                                final Visite visite = Visite(
-                                  indexCompteur: int.parse(indexController.text), 
-                                  commentaire: commentController.text, 
-                                  site: site!, 
-                                  oo: int.parse(ooController.text),
-                                  otn: int.parse(otnController.text),
-                                  tt: int.parse(ttController.text)
-                                  );
-                                BlocProvider.of<VisiteBloc>(context).add(AddNewVisiteEvent(visite: visite, file: file!));
-                              }
-                            },
-                            child: Container(
-                                height: 70,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    color: secondaryColor,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: const Center(
-                                  child: Text(
-                                    "Enregistrer",
-                                    style: TextStyle(
-                                        color: whiteColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                )),
+                                  
+                                  if(keyFormAddNewVisite.currentState!.validate() && site != null){
+                                    print("visite id from button modifier = ${visite.visiteId}");
+                                    final Visite newVisite = Visite(
+                                      visiteId: visite.visiteId,
+                                      indexCompteur: int.parse(indexController.text), 
+                                      commentaire: commentController.text, 
+                                      site: site!, 
+                                      oo: int.parse(ooController.text),
+                                      otn: int.parse(otnController.text),
+                                      tt: int.parse(ttController.text),
+                                      );
+
+                                    if(file == null){
+                                      BlocProvider.of<VisiteBloc>(context).add(UpdateVisiteEvent(visite: newVisite, file: null));
+                                    }else{
+                                      BlocProvider.of<VisiteBloc>(context).add(UpdateVisiteEvent(visite: newVisite, file: file));
+
+                                    }
+                                    
+                                    
+                                  }
+                                },
+                                child: Container(
+                                    height: 70,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                        color: secondaryColor,
+                                        borderRadius: BorderRadius.circular(8)),
+                                    child: const Center(
+                                      child: Text(
+                                        "Modifier",
+                                        style: TextStyle(
+                                            color: whiteColor,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )),
+                              ),
+                            ],
                           ),
 
 
                           BlocListener<VisiteBloc, VisiteState>(listener: (context, state) {  
                             if(state is ErrorVisiteState){
                               SnackbarMessage().showErrorSnackBar(message: state.message, context: context);
-                            }else if(state is AddedNewVisiteState){
-                              isSharing = false;
-                              indexController.text = "";
-                              commentController.text = "";
-                              ooController.text = "";
-                              ttController.text = "";
-                              otnController.text = "";
-                              site = null;
-                              siteCode ="";
-                              //delete image picked
-                              file = null;
+                            }else if(state is UpdatedVisiteState){
                               BlocProvider.of<ImagePickerBloc>(context).add(DeleteImagePickedEvent());
-                              SnackbarMessage().showSuccessSnackBar(message: "La nouvelle visite a été enregistrée.", context: context);
+                              SnackbarMessage().showSuccessSnackBar(message: "La visite a été modifiée.", context: context);
                               BlocProvider.of<VisiteBloc>(context).add(GettAllVisitesEvent());
                               Navigator.pop(context);
                             }

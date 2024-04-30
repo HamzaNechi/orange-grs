@@ -6,6 +6,7 @@ import 'package:orange_grs/features/visites/domain/entities/visite.dart';
 import 'package:orange_grs/features/visites/domain/usecases/add_new_visite_use_case.dart';
 import 'package:orange_grs/features/visites/domain/usecases/delete_visite_usecase.dart';
 import 'package:orange_grs/features/visites/domain/usecases/get_all_visite_use_case.dart';
+import 'package:orange_grs/features/visites/domain/usecases/update_visite_use_case.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_state.dart';
 
@@ -14,7 +15,8 @@ class VisiteBloc extends Bloc<VisiteEvent, VisiteState> {
   final GetAllVisiteUseCase getAllVisiteUseCase;
   final AddNewVisiteUseCase addNewVisiteUseCase;
   final DeleteVisiteUseCase deleteVisiteUseCase;
-  VisiteBloc({required this.getAllVisiteUseCase, required this.addNewVisiteUseCase, required this.deleteVisiteUseCase}) : super(VisiteInitialState()) {
+  final UpdateVisiteUseCase updateVisiteUseCase;
+  VisiteBloc({required this.getAllVisiteUseCase, required this.addNewVisiteUseCase, required this.deleteVisiteUseCase,required this.updateVisiteUseCase,}) : super(VisiteInitialState()) {
     on<VisiteEvent>((event, emit) async{
       emit(LoadingVisiteState());
       if(event is GettAllVisitesEvent){
@@ -29,6 +31,14 @@ class VisiteBloc extends Bloc<VisiteEvent, VisiteState> {
       }else if(event is DeleteVisiteByIdEvent){
         final failureOrDeleted = await deleteVisiteUseCase.call(event.visiteId);
         emit(emitterDeleteAndAddVisite(failureOrDeleted, event.visiteId));
+      }else if(event is UpdateVisiteEvent){
+        Either<Failure, String> failureOrUpdated;
+        if(event.file == null) {
+          failureOrUpdated = await updateVisiteUseCase.call(event.visite, null);
+        }else{
+          failureOrUpdated = await updateVisiteUseCase.call(event.visite, event.file);
+        } 
+        emit(emitterDeleteAndAddVisite(failureOrUpdated, null));
       }
     });  
   }
@@ -57,6 +67,8 @@ class VisiteBloc extends Bloc<VisiteEvent, VisiteState> {
             print("sucess body string add and delete visite $success");
             if(success == "deleted" && visiteId != null){
               return DeletedVisiteState(idVisite: visiteId);
+            }else if(success == "success update"){
+              return UpdatedVisiteState();
             }else{
               return AddedNewVisiteState();
             }

@@ -39,6 +39,9 @@ final class ExpiredTokenState extends VisiteState{}
 final class AddedNewVisiteState extends VisiteState{}
 
 
+final class UpdatedVisiteState extends VisiteState{}
+
+
 final class DeletedVisiteState extends VisiteState{
   final int idVisite;
 

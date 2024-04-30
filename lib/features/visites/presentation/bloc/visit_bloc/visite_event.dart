@@ -43,5 +43,16 @@ class DeleteVisiteByIdEvent extends VisiteEvent{
 }
 
 
+class UpdateVisiteEvent extends VisiteEvent{
+  final Visite visite;
+  final XFile? file;
+
+  const UpdateVisiteEvent({required this.visite, this.file});
+
+  @override
+  List<Object> get props => [visite,file!];
+}
+
+
 
 

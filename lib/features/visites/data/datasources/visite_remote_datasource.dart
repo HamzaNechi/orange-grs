@@ -14,6 +14,8 @@ abstract class VisiteRemoteDataSource{
   Future<List<VisiteModel>> getAllVisites(String? siteCode);
   Future<String> addNewVisite(VisiteModel visiteModel, XFile file);
   Future<String> deleteVisite(int visiteId);
+
+  Future<String> updateVisite(VisiteModel visite, XFile? file);
 }
 
 
@@ -104,6 +106,46 @@ class VisiteRemoteDataSourceImpl extends VisiteRemoteDataSource{
         }else{
           throw ServerException();
         }
+    }on TimeoutException{
+      throw TimeoutException("Le serveur est actuellement en panne");
+    }
+  }
+  
+  @override
+  Future<String> updateVisite(VisiteModel visiteModel, XFile? file) async {
+    const url = "$BASE_URL_PUBLIC/visites/";
+
+    try{
+
+      final request = http.MultipartRequest(
+        'PUT',
+        Uri.parse(url),
+      );
+
+      request.fields['visiteId'] = visiteModel.visiteId!.toString();
+      request.fields['indexCompteur'] = visiteModel.indexCompteur.toString();
+      request.fields['commentaire'] = visiteModel.commentaire;
+      request.fields['siteId'] = visiteModel.site.siteId.toString();
+      request.fields['otn'] = visiteModel.otn.toString();
+      request.fields['oo'] = visiteModel.oo.toString();
+      request.fields['tt'] = visiteModel.tt.toString();
+      request.headers['Authorization'] = 'Bearer ${sharedPref.getString('token')}';
+      if(file != null){
+        request.files.add(
+          await http.MultipartFile.fromPath('photo', file.path),
+        );
+      }
+      
+
+      final response = await request.send().timeout(const Duration(seconds: 10));
+      if(response.statusCode == 200){
+        return Future.value("success update");
+      }else if(response.statusCode == 401){
+          throw ExpiredJwtException();
+      }else{
+          throw ServerException();
+      }
+
     }on TimeoutException{
       throw TimeoutException("Le serveur est actuellement en panne");
     }

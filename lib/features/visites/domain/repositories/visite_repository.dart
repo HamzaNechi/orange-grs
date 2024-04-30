@@ -7,4 +7,5 @@ abstract class VisiteRepository{
   Future<Either<Failure,List<Visite>>> getAllVisites(String? siteCode);
   Future<Either<Failure,String>> addNewVisite(Visite visite, XFile file);
   Future<Either<Failure,String>> deleteVisite(int visiteId);
+  Future<Either<Failure,String>> updateVisite(Visite visite, XFile? file);
 }

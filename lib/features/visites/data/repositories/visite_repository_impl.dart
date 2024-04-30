@@ -83,5 +83,38 @@ class VisiteRepositoryImpl extends VisiteRepository{
       return Left(OfflineFailure());
     }
   }
+  
+  @override
+  Future<Either<Failure, String>> updateVisite(Visite visite, XFile? file) async {
+    if(await networkInfo.isConnected){
+      try{
+        final VisiteModel visiteModel = VisiteModel(
+          visiteId: visite.visiteId,
+          indexCompteur: visite.indexCompteur,
+          commentaire: visite.commentaire,
+          site: visite.site, 
+          otn: visite.otn, 
+          oo: visite.oo, 
+          tt: visite.tt);
+          String statusUpdate;
+          if(file == null){
+            statusUpdate = await visiteRemoteDataSource.updateVisite(visiteModel, null);
+          }else{
+            statusUpdate = await visiteRemoteDataSource.updateVisite(visiteModel, file);
+          }
+        return Right(statusUpdate);
+      }on ExpiredJwtException{
+        return Left(ExpiredJwtFailure());
+      }on ServerException{
+        return Left(ServerFailure());
+      }on TimeoutException{
+        return Left(PanneServerFailure());
+      }on Exception{
+        return Left(PanneServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
 
 }

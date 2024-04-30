@@ -10,6 +10,7 @@ import 'package:orange_grs/core/widgets/body_scaffold_global.dart';
 import 'package:orange_grs/features/auth/presentation/blocs/login_bloc/login_bloc_bloc.dart';
 import 'package:orange_grs/features/auth/presentation/pages/profile_user_page.dart';
 import 'package:orange_grs/features/sites/presentation/pages/site_liste_page.dart';
+import 'package:orange_grs/features/statistique/presentation/pages/home_page.dart';
 import 'package:orange_grs/features/visites/presentation/pages/list_visite.dart';
 
 class BottomNav extends StatefulWidget {
@@ -35,7 +36,7 @@ class _BottomNavState extends State<BottomNav> with SingleTickerProviderStateMix
     
     double radiusValue = 0;
     BodyScaffoldGlobal? bodyIndex = BodyScaffoldGlobal.of(context);
-    List<Widget> widgets = [Container(color: Colors.red,), const SiteListPage(), const ListVisite()];
+    List<Widget> widgets = [const HomePage(), const SiteListPage(), const ListVisite()];
 
 
     return BlocConsumer<BottomNavBloc, BottomNavState>(

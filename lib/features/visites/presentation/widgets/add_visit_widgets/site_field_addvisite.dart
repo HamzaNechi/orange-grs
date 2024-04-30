@@ -7,13 +7,17 @@ import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_
 import 'package:orange_grs/features/visites/presentation/widgets/loading_search_field.dart';
 import 'package:searchfield/searchfield.dart';
 
+
 class SearchableFieldSiteForAddVisite extends StatelessWidget {
   final ValueChanged<Site> onSubmit;
   final ValueChanged<bool> checkSharingSite;
-  const SearchableFieldSiteForAddVisite({super.key, required this.onSubmit, required this.checkSharingSite});
+  final String? siteCode;
+  const SearchableFieldSiteForAddVisite({super.key, required this.onSubmit, required this.checkSharingSite, this.siteCode});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController siteController = TextEditingController();
+    siteController.text = siteCode != null ? siteCode! : '';
     return BlocBuilder<SiteBloc, SiteState>(
                             builder: (context, state) {
                               if(state is LoadedSiteState){
@@ -23,6 +27,7 @@ class SearchableFieldSiteForAddVisite extends StatelessWidget {
                                       contentPadding: EdgeInsets.all(10)
                                       //prefixIcon: Icon(CupertinoIcons.number),
                                       ),
+                                  controller: siteController,
                                   itemHeight: 40,
                                   validator: (p0) {
                                     if(p0!.isEmpty){
@@ -34,10 +39,11 @@ class SearchableFieldSiteForAddVisite extends StatelessWidget {
                                   maxSuggestionsInViewPort: 5,
                                   textInputAction: TextInputAction.next,
                                   onSuggestionTap: (p) {
-                                    //siteController.text = p.item!.siteCode!;
+                                    siteController.text = p.item!.siteCode!;
                                     onSubmit(p.item!);
                                     checkSharingSite(p.item!.isSharing == 1);
                                   },
+                                  
                     
                                   suggestionsDecoration: SuggestionDecoration(
                                       color: whiteColor,
@@ -48,7 +54,8 @@ class SearchableFieldSiteForAddVisite extends StatelessWidget {
                                       fontFamily: rubikFontRegular,
                                       fontWeight: FontWeight.w400,
                                       color: secondaryColor),
-                                  suggestions: state.sites.map((site) => SearchFieldListItem<Site>(site.siteCode.toString() , item: site)).toList()
+                                  suggestions: state.sites.map((site) => SearchFieldListItem<Site>(site.siteCode.toString() , item: site)).toList(),
+
                                   );
                               }else if(state is LoadingSiteState){
                                 return const LoadingSearchFieldWidget();

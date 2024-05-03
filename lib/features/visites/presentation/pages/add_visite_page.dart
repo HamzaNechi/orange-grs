@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +13,7 @@ import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_state.dart';
 import 'package:orange_grs/features/visites/presentation/widgets/add_visit_widgets/add_image_widget.dart';
+import 'package:orange_grs/features/visites/presentation/widgets/add_visit_widgets/dropdown_tag_widget.dart';
 import 'package:orange_grs/features/visites/presentation/widgets/add_visit_widgets/site_field_addvisite.dart';
 
 class AddVisitePage extends StatelessWidget {
@@ -29,6 +31,7 @@ class AddVisitePage extends StatelessWidget {
     late XFile? file;
     bool isSharing = false;
     String siteCode = '';
+    String tag = 'Modification';
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: SecondAppBarWidget(contextX: context),
@@ -129,6 +132,9 @@ class AddVisitePage extends StatelessWidget {
                           ),
 
 
+                          
+
+
                           SearchableFieldSiteForAddVisite(
                             siteCode: siteCode,
                             onSubmit: (value) {
@@ -139,6 +145,16 @@ class AddVisitePage extends StatelessWidget {
                               isSharing = value;
                             },
                           ),
+
+
+                          const SizedBox(
+                            height: 8,
+                          ),
+
+
+                          DropdownTagWidget(onChangeItem: (value) {
+                            tag = value;
+                          },),
 
 
                           Visibility(
@@ -243,6 +259,7 @@ class AddVisitePage extends StatelessWidget {
 
                           InkWell(
                             onTap: () {
+                              print("tag from add visite page fe on click = $tag");
                               if(isSharing){
                                 if(otnController.text.isEmpty){
                                   otnController.text = "0";
@@ -265,7 +282,8 @@ class AddVisitePage extends StatelessWidget {
                                   site: site!, 
                                   oo: int.parse(ooController.text),
                                   otn: int.parse(otnController.text),
-                                  tt: int.parse(ttController.text)
+                                  tt: int.parse(ttController.text), 
+                                  tag: tag
                                   );
                                 BlocProvider.of<VisiteBloc>(context).add(AddNewVisiteEvent(visite: visite, file: file!));
                               }

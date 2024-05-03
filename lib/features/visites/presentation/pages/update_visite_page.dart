@@ -354,7 +354,6 @@ class UpdateVisitePage extends StatelessWidget {
                               
                                   
                                   if(keyFormAddNewVisite.currentState!.validate() && site != null){
-                                    print("visite id from button modifier = ${visite.visiteId}");
                                     final Visite newVisite = Visite(
                                       visiteId: visite.visiteId,
                                       indexCompteur: int.parse(indexController.text), 
@@ -362,7 +361,8 @@ class UpdateVisitePage extends StatelessWidget {
                                       site: site!, 
                                       oo: int.parse(ooController.text),
                                       otn: int.parse(otnController.text),
-                                      tt: int.parse(ttController.text),
+                                      tt: int.parse(ttController.text), 
+                                      tag: visite.tag,
                                       );
 
                                     if(file == null){

@@ -22,4 +22,9 @@ class GlobalFunctionUtils{
       String fixedString = utf8.decode(input.codeUnits);
       return fixedString; 
   }
+
+
+  static double convertEnTnd(double montant){
+      return montant/1000;
+  }
 }

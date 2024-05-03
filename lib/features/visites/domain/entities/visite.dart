@@ -13,6 +13,7 @@ class Visite extends Equatable{
   final int otn;
   final int oo;
   final int tt;
+  final String tag;
 
   const Visite({this.visiteId, 
   required this.indexCompteur, 
@@ -23,11 +24,12 @@ class Visite extends Equatable{
   required this.site,
   required this.otn, 
   required this.oo, 
-  required this.tt
+  required this.tt,
+  required this.tag,
   });
   
    
   @override
-  List<Object?> get props => [visiteId,indexCompteur,photoCompteur,dateInsertion,commentaire,responsable,site];
+  List<Object?> get props => [visiteId,indexCompteur,photoCompteur,dateInsertion,commentaire,responsable,site,tag];
 
 }

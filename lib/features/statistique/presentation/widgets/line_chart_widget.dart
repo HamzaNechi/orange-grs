@@ -1,27 +1,33 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:orange_grs/core/colors/light_theme_colors.dart';
+import 'package:orange_grs/core/utils/global_function_utils.dart';
+import 'package:orange_grs/features/sites/domain/entities/facture_site.dart';
 
 class LineChartWidget extends StatelessWidget {
-  const LineChartWidget({super.key});
+  final List<FactureSite>? listFactures;
+  const LineChartWidget({super.key, this.listFactures});
 
   @override
   Widget build(BuildContext context) {
+
+    double maxFinalSolde = listFactures != null && listFactures!.isNotEmpty ? listFactures!.map((facture) => facture.finalSolde).reduce((maxValue, value) => value > maxValue ? value : maxValue) : 0;
     return BarChart(
       BarChartData(
         barTouchData: barTouchData,
         titlesData: titlesData,
         borderData: borderData,
-        barGroups: barGroups,
+        barGroups: barGroups(listFactures),
         gridData: const FlGridData(show: true),
         alignment: BarChartAlignment.spaceAround,
-        maxY: 20
+        maxY: GlobalFunctionUtils.convertEnTnd(maxFinalSolde) + 250
       )
     );
   }
-}
 
 
-BarTouchData get barTouchData => BarTouchData(
+
+  BarTouchData get barTouchData => BarTouchData(
   enabled: false,
   touchTooltipData: BarTouchTooltipData(
     tooltipPadding: const EdgeInsets.all(2),
@@ -29,7 +35,7 @@ BarTouchData get barTouchData => BarTouchData(
     getTooltipItem: (group, groupIndex, rod, rodIndex) {
       return BarTooltipItem(
         rod.toY.toString(),
-        const TextStyle(color: Colors.cyan, fontWeight: FontWeight.bold)
+        const TextStyle(color: whiteColor, fontWeight: FontWeight.bold)
       );
     },
   )
@@ -38,51 +44,57 @@ BarTouchData get barTouchData => BarTouchData(
 
 Widget getTitles(double value, TitleMeta meta){
   const style = TextStyle(
-    color: Colors.blueAccent,
+    color: secondaryColor,
     fontWeight: FontWeight.bold,
     fontSize: 14
   );
 
   String text;
-  switch(value.toInt()){
-    case 0:
-      text = 'Janv'; break;
-    case 1:
-      text = 'Fév'; break;
-    case 2:
-      text = 'Mrs'; break;
-    case 3:
-      text = 'Avr'; break;
-    case 4:
-      text = 'Mai'; break;
-    case 5:
-      text = 'Juin'; break;
-    case 6:
-      text = 'Juillet'; break;
-    case 7:
-      text = 'Aout'; break;
-    case 8:
-      text = 'Sept'; break;
-    case 9:
-      text = 'Oct'; break;
-    case 10:
-      text = 'Nov'; break;
-    case 11:
-      text = 'Déc'; break;
-    default:
-      text = 'Pe'; break;
+  if(listFactures != null && listFactures!.isNotEmpty){
+    switch(value.toInt()){
+      case 0:
+        int month = listFactures != null ? listFactures![0].month : 0;
+        int year = listFactures != null ? listFactures![0].year : 0;
+        text = '0$month/$year'; break;
+      case 1:
+        int month = listFactures != null ? listFactures![1].month : 0;
+        int year = listFactures != null ? listFactures![1].year : 0;
+        text = '0$month/$year'; break;
+      case 2:
+        int month = listFactures != null ? listFactures![2].month : 0;
+        int year = listFactures != null ? listFactures![2].year : 0;
+        text = '0$month/$year'; break;
+      case 3:
+        int month = listFactures != null ? listFactures![3].month : 0;
+        int year = listFactures != null ? listFactures![3].year : 0;
+        text = '0$month/$year'; break;
+      case 4:
+        int month = listFactures != null ? listFactures![4].month : 0;
+        int year = listFactures != null ? listFactures![4].year : 0;
+        text = '0$month/$year'; break;
+      case 5:
+        int month = listFactures != null ? listFactures![5].month : 0;
+        int year = listFactures != null ? listFactures![5].year : 0;
+        text = '0$month/$year'; break;
+      default:
+        text = '_'; break;
+    }
+  }else{
+    text = "00-0000";
   }
+  
 
   return SideTitleWidget(
     axisSide: meta.axisSide, 
-    space: 4,
+    space: 5,
+    angle: 5.5,
     child: Text(text, style: style,), 
     );
 }
 
 
 
-FlTitlesData get titlesData => const FlTitlesData(
+FlTitlesData get titlesData => FlTitlesData(
   show: true,
   bottomTitles: AxisTitles(
     sideTitles: SideTitles(
@@ -91,13 +103,13 @@ FlTitlesData get titlesData => const FlTitlesData(
       getTitlesWidget: getTitles
     )
   ),
-  leftTitles: AxisTitles(
+  leftTitles: const AxisTitles(
     sideTitles: SideTitles(showTitles: false)
   ),
-  topTitles: AxisTitles(
+  topTitles: const AxisTitles(
     sideTitles: SideTitles(showTitles: false)
   ),
-  rightTitles: AxisTitles(
+  rightTitles: const AxisTitles(
     sideTitles: SideTitles(showTitles: false)
   ),
 );
@@ -109,8 +121,8 @@ FlBorderData get borderData => FlBorderData(
 
 
 LinearGradient get _barsGradient => const LinearGradient(colors: [
-      Colors.blueAccent,
-      Colors.blue
+      primaryColor,
+      primaryColor
     ],
 
     begin: Alignment.bottomCenter,
@@ -118,11 +130,11 @@ LinearGradient get _barsGradient => const LinearGradient(colors: [
 );
 
 
-List<BarChartGroupData> get barGroups => [
+List<BarChartGroupData> barGroups(List<FactureSite>? factures) => [
   BarChartGroupData(
     x: 0, 
     barRods: [
-      BarChartRodData(toY: 8, gradient: _barsGradient)
+      BarChartRodData(toY: factures != null ? GlobalFunctionUtils.convertEnTnd(factures[0].finalSolde) : 0, gradient: _barsGradient)
     ],
     showingTooltipIndicators: [0]
     ),
@@ -131,7 +143,7 @@ List<BarChartGroupData> get barGroups => [
     BarChartGroupData(
     x: 1, 
     barRods: [
-      BarChartRodData(toY: 10, gradient: _barsGradient)
+      BarChartRodData(toY: factures != null ? GlobalFunctionUtils.convertEnTnd(factures[1].finalSolde) : 0, gradient: _barsGradient)
     ],
     showingTooltipIndicators: [0]
     ),
@@ -140,7 +152,7 @@ List<BarChartGroupData> get barGroups => [
     BarChartGroupData(
     x: 2, 
     barRods: [
-      BarChartRodData(toY: 15, gradient: _barsGradient)
+      BarChartRodData(toY: factures != null ? GlobalFunctionUtils.convertEnTnd(factures[2].finalSolde) : 0, gradient: _barsGradient)
     ],
     showingTooltipIndicators: [0]
     ),
@@ -148,7 +160,7 @@ List<BarChartGroupData> get barGroups => [
     BarChartGroupData(
     x: 3, 
     barRods: [
-      BarChartRodData(toY: 2, gradient: _barsGradient)
+      BarChartRodData(toY: factures != null ? GlobalFunctionUtils.convertEnTnd(factures[3].finalSolde) : 0, gradient: _barsGradient)
     ],
     showingTooltipIndicators: [0]
     ),
@@ -157,7 +169,7 @@ List<BarChartGroupData> get barGroups => [
     BarChartGroupData(
     x: 4, 
     barRods: [
-      BarChartRodData(toY: 7, gradient: _barsGradient)
+      BarChartRodData(toY: factures != null ? GlobalFunctionUtils.convertEnTnd(factures[4].finalSolde) : 0, gradient: _barsGradient)
     ],
     showingTooltipIndicators: [0]
     ),
@@ -166,8 +178,11 @@ List<BarChartGroupData> get barGroups => [
     BarChartGroupData(
     x: 5, 
     barRods: [
-      BarChartRodData(toY: 12, gradient: _barsGradient)
+      BarChartRodData(toY: factures != null ? GlobalFunctionUtils.convertEnTnd(factures[5].finalSolde) : 0, gradient: _barsGradient)
     ],
     showingTooltipIndicators: [0]
     ),
 ];
+}
+
+

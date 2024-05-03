@@ -47,7 +47,8 @@ class VisiteRepositoryImpl extends VisiteRepository{
           site: visite.site, 
           otn: visite.otn, 
           oo: visite.oo, 
-          tt: visite.tt);
+          tt: visite.tt, 
+          tag: visite.tag);
         final statusAdd = await visiteRemoteDataSource.addNewVisite(visiteModel, file);
         return Right(statusAdd);
       }on ExpiredJwtException{
@@ -95,7 +96,8 @@ class VisiteRepositoryImpl extends VisiteRepository{
           site: visite.site, 
           otn: visite.otn, 
           oo: visite.oo, 
-          tt: visite.tt);
+          tt: visite.tt, 
+          tag: visite.tag);
           String statusUpdate;
           if(file == null){
             statusUpdate = await visiteRemoteDataSource.updateVisite(visiteModel, null);

@@ -8,6 +8,8 @@ import 'package:orange_grs/core/widgets/splash_screen.dart';
 import 'package:orange_grs/features/auth/presentation/blocs/login_bloc/login_bloc_bloc.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_detail_site/facture_site_bloc.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
+import 'package:orange_grs/features/statistique/presentation/blocs/statistique_bloc/statistique_bloc.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/dropdown_tag_bloc/dropdown_tag_bloc_bloc.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/image_picker_bloc.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_bloc.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
@@ -41,7 +43,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => di.sl<VisiteBloc>()..add(GettAllVisitesEvent())),
           BlocProvider(create: (context) => di.sl<FactureSiteBloc>()),
           BlocProvider(create: (context) => di.sl<LoginBlocBloc>(),),
-          BlocProvider(create: (context) => ImagePickerBloc(ImagePickerUtils()))
+          BlocProvider(create: (context) => ImagePickerBloc(ImagePickerUtils())),
+          BlocProvider(create: (context) => StatistiqueBloc()),
+          BlocProvider(create: (context) => DropdownTagBlocBloc()),
         ],
         child: MaterialApp(
           title: 'GRS-Orange',

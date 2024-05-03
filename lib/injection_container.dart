@@ -92,6 +92,7 @@ Future<void> init() async {
 
 
 
+
 //! Core
 
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

@@ -135,6 +135,22 @@ class DetailVisitePage extends StatelessWidget {
                     ),
 
 
+
+                    const SizedBox(height: 10,),
+                
+                
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Action", style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: secondaryColor),),
+                          Text(visite.tag, style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: greyForTextColor),),
+                        ],
+                      ),
+                    ),
+
+
                     visite.site.isSharing == 1 ? Column(
                       children: [
                         const SizedBox(height: 10,),

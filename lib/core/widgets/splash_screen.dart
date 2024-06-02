@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:orange_grs/core/navigations/bottom_nav.dart';
 import 'package:orange_grs/core/responsive/responsiveController.dart';
+import 'package:orange_grs/core/widgets/get_ip_adress_widget.dart';
 import 'package:orange_grs/features/auth/presentation/pages/login_page.dart';
 import 'package:orange_grs/main.dart';
 
@@ -20,6 +21,7 @@ class SplashScreen extends StatelessWidget {
       const Duration(seconds:4), 
       () {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => toLoginOrDashboard ? const LoginPage() : const BottomNav(),));
+       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const GetIpAddress()));
     });
 
     DeviceType deviceType = ResponsiveController().getDeviceType(MediaQuery.of(context));

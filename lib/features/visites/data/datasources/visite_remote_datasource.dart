@@ -52,7 +52,7 @@ class VisiteRemoteDataSourceImpl extends VisiteRemoteDataSource{
   @override
   Future<String> addNewVisite(VisiteModel visiteModel, XFile file) async{
     
-    const url = "$BASE_URL_PUBLIC/visites";
+    final url = "$BASE_URL_PUBLIC/visites";
 
     try{
 
@@ -116,7 +116,7 @@ class VisiteRemoteDataSourceImpl extends VisiteRemoteDataSource{
   
   @override
   Future<String> updateVisite(VisiteModel visiteModel, XFile? file) async {
-    const url = "$BASE_URL_PUBLIC/visites/";
+    final url = "$BASE_URL_PUBLIC/visites/";
 
     try{
 

@@ -20,7 +20,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
 
   @override
   Future<LoginResponse> doLogin(String login, String password) async {
-    const uri = "$BASE_URL_PUBLIC/auth/login";
+    final uri = "$BASE_URL_PUBLIC/auth/login";
 
     final _header  = {
       "Content-Type": "application/json",
@@ -52,7 +52,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
   
   @override
   Future<UserModel> getUserConnected() async {
-    const uri = "$BASE_URL_PUBLIC/auth/user";
+    final uri = "$BASE_URL_PUBLIC/auth/user";
 
     final header  = {
       "Content-Type": "application/json",

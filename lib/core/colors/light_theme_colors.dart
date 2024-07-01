@@ -14,6 +14,7 @@ const whiteColor = Color(0xFFffffff);
 
 //unecessary
 const greenColor = Color(0xFF50c086);
-const blueColor = Color(0xFF50b6e6);
+const blueColor = Color.fromRGBO(48, 100, 196, 1);
 const purpleColor = Color(0xFFF28AF7);
 const yellowColor = Color(0xFFF7EB8A);
+const turquoiseColor = Color(0xFF40e0d0);

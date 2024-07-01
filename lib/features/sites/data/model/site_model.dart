@@ -16,7 +16,7 @@ class SiteModel extends Site{
       networkType: json['networkTypeId']?['description'] ?? 'sans network type',
       status: json['statusId']?['description'] ?? '',
       siteName: json['siteName'] ?? 'sans name',
-      isSharing: json['isSharing']
+      isSharing: json['sharing']
       );
   }
 

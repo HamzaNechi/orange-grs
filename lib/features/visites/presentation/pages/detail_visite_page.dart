@@ -136,19 +136,7 @@ class DetailVisitePage extends StatelessWidget {
 
 
 
-                    const SizedBox(height: 10,),
-                
-                
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Action", style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: secondaryColor),),
-                          Text(visite.tag, style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: greyForTextColor),),
-                        ],
-                      ),
-                    ),
+                    
 
 
                     visite.site.isSharing == 1 ? Column(
@@ -167,7 +155,7 @@ class DetailVisitePage extends StatelessWidget {
                           ),
                         ),
 
-
+                        ///*********************   Ooredoo ********************************* */
                         const SizedBox(height: 10,),
                 
                 
@@ -193,10 +181,36 @@ class DetailVisitePage extends StatelessWidget {
                         ),
 
 
-
                         const SizedBox(height: 10,),
                 
                 
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Index OO", style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: secondaryColor),),
+                              visite.indexOO > 0 ? Text(
+                                "${visite.indexOO} Kwh", 
+                                style:Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  fontWeight: FontWeight.w500, 
+                                  fontSize: 14, 
+                                  color: greyForTextColor),) : Container(
+                                                                  height: 20,
+                                                                  width: 20,
+                                                                  decoration:
+                                                                      const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                                                ),
+                            ],
+                          ),
+                        ),
+                        /***********  End Oredoooooo ***************************************************** */
+
+
+
+                        const SizedBox(height: 10,),
+                
+                        /********************* Tunisie télécom ******************************************* */
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
@@ -217,6 +231,31 @@ class DetailVisitePage extends StatelessWidget {
                             ],
                           ),
                         ),
+
+                        const SizedBox(height: 10,),
+                
+                
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Index TT", style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500, fontSize: 14, color: secondaryColor),),
+                              visite.indexTT > 0 ? Text(
+                                "${visite.indexTT} Kwh", 
+                                style:Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  fontWeight: FontWeight.w500, 
+                                  fontSize: 14, 
+                                  color: greyForTextColor),) : Container(
+                                                                  height: 20,
+                                                                  width: 20,
+                                                                  decoration:
+                                                                      const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                                                ),
+                            ],
+                          ),
+                        ),
+                        /****************************  End tunisie télécom ************************************* */
 
                         const SizedBox(height: 30,),
                       ],

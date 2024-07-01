@@ -55,7 +55,7 @@ class SiteListItemWidgetMobile extends StatelessWidget {
             child: Center(
               child: ListTile(
                 title: Text(site.siteCode!, style: const TextStyle(color: secondaryColor, fontWeight: FontWeight.w600, fontSize: 18, fontFamily: rubikFontSemiBold),),
-                subtitle:Text(site.siteRef, style: TextStyle(color: secondaryColor.withOpacity(0.7), fontWeight: FontWeight.w500, fontSize: 16, fontFamily: rubikFontSemiBold),),
+                subtitle:Text('${site.siteRef}', style: TextStyle(color: secondaryColor.withOpacity(0.7), fontWeight: FontWeight.w500, fontSize: 16, fontFamily: rubikFontSemiBold),),
                 trailing: const Icon(Icons.arrow_forward_ios , size: 27,),
                 leading: Container(
                   width: localWidth / 8,

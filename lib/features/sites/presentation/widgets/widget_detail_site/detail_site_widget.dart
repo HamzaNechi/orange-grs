@@ -8,6 +8,7 @@ import 'package:orange_grs/core/widgets/snackbar.dart';
 import 'package:orange_grs/features/auth/presentation/pages/login_page.dart';
 import 'package:orange_grs/features/sites/domain/entities/site.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
+import 'package:orange_grs/features/sites/presentation/widgets/widget_detail_site/localisation_site_widget.dart';
 import 'package:orange_grs/main.dart';
 
 
@@ -21,7 +22,7 @@ class SiteDetailWidget extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
-    final isSharing = site.isSharing == 1 ? 'Site partagé' : 'Site non partagé';
+    final isSharing = site.isSharing ? 'Site partagé' : 'Site non partagé';
 
     return Padding(
       padding: EdgeInsets.all(screenHeight * 0.025),
@@ -43,7 +44,7 @@ class SiteDetailWidget extends StatelessWidget {
                       SizedBox(
                         height: screenHeight * 0.025,
                       ),
-                      buildItemDetail("Référence", site.siteRef),
+                      buildItemDetail("Référence", '${site.siteRef}'),
                       SizedBox(
                         height: screenHeight * 0.025,
                       ),
@@ -131,6 +132,40 @@ class SiteDetailWidget extends StatelessWidget {
                       ),
                       buildItemDetail(
                           "Type Network", site.networkType!),
+
+                      //préparation for google maps
+                      SizedBox(
+                        height: screenHeight * 0.025,
+                      ),
+
+
+                      InkWell(
+                        onTap: () {
+                          openMapScreen(context);
+                        },
+                        child: Container(
+                          width: screenWidth * 0.45,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.redAccent),
+                          child: const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                'Voir local sur le map',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: rubikFontRegular,
+                                    fontWeight: FontWeight.w700,
+                                    color: whiteColor),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+
                     ],
                   ),
                 ),
@@ -233,5 +268,53 @@ class SiteDetailWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+  
+  void openMapScreen(BuildContext context) {
+    showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: MediaQuery.of(context).size.height * 0.87,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40)
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,                       
+                        children: <Widget>[
+                          Container(
+                            height: 70,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30)
+                              )
+                            ),
+                            child: const Center(
+                              child: Text(
+                                  "Localisation",
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontFamily: rubikFontMedium,
+                                      fontWeight: FontWeight.w400,
+                                      color: secondaryColor),
+                                ),
+                            )
+                          ),
+
+                          const Divider(color: greyEtentColor,),
+
+
+                          const LocalisationSiteWidget()
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
   }
 }

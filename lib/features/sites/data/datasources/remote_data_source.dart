@@ -30,8 +30,6 @@ class SiteRemoteDataSourceImpl implements SiteRemoteDataSource{
           "Authorization": "Bearer ${sharedPref.getString('token')}",
           }
         ).timeout(const Duration(seconds: 10));
-
-
       if(response.statusCode == 200){
         List decodeJsonData = jsonDecode(response.body) as List;
         List<SiteModel> sites = decodeJsonData

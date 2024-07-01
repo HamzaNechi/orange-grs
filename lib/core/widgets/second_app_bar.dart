@@ -5,6 +5,7 @@ import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/navigations/bottom_nav/bloc/bottom_nav_bloc.dart';
 import 'package:orange_grs/core/navigations/bottom_nav/bloc/bottom_nav_event.dart';
 import 'package:orange_grs/core/strings/fonts.dart';
+import 'package:orange_grs/features/reclamation/presentation/pages/add_new_reclamation.dart';
 import 'package:orange_grs/features/sites/presentation/bloc/bloc_list_site/site_bloc.dart';
 
 class SecondAppBarWidget extends StatelessWidget implements PreferredSizeWidget{
@@ -37,9 +38,13 @@ class SecondAppBarWidget extends StatelessWidget implements PreferredSizeWidget{
 
               
               
-              title == null ? const Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(CupertinoIcons.question_circle, color: secondaryColor, size: 25,),
+              title == null ? Padding(
+                padding: const EdgeInsets.all(10),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AddReclamationPage(),));
+                  },
+                  child: const Icon(CupertinoIcons.question_circle, color: secondaryColor, size: 25,)),
               ) : const SizedBox(),
 
 

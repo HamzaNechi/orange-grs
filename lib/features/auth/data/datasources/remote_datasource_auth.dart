@@ -20,7 +20,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
 
   @override
   Future<LoginResponse> doLogin(String login, String password) async {
-    final uri = "$BASE_URL_PUBLIC/auth/login";
+    const uri = "$BASE_URL_PUBLIC/auth/login";
 
     final _header  = {
       "Content-Type": "application/json",
@@ -33,6 +33,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       };
     try{
       var response = await http.post(Uri.parse(uri), body:jsonEncode(_body), headers: _header).timeout(const Duration(seconds: 10));
+      print("response login = ${response.body}");
       if(response.statusCode == 200){
         final Map<String, dynamic> mapJson = jsonDecode(response.body) as Map<String, dynamic>;     
         if(mapJson["statusCode"] == 500){
@@ -52,7 +53,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
   
   @override
   Future<UserModel> getUserConnected() async {
-    final uri = "$BASE_URL_PUBLIC/auth/user";
+    const uri = "$BASE_URL_PUBLIC/auth/user";
 
     final header  = {
       "Content-Type": "application/json",

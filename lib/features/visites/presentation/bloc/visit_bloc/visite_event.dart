@@ -54,6 +54,23 @@ class UpdateVisiteEvent extends VisiteEvent{
 }
 
 
+class ChangeValueIndexEvent extends VisiteEvent{
+  final String indexValue;
 
+  const ChangeValueIndexEvent({required this.indexValue});
+
+  @override
+  List<Object> get props => [indexValue];
+}
+
+
+class ChangeValueIndexAddVisitEvent extends VisiteEvent{
+  final String indexValue;
+
+  const ChangeValueIndexAddVisitEvent({required this.indexValue});
+
+  @override
+  List<Object> get props => [indexValue];
+}
 
 

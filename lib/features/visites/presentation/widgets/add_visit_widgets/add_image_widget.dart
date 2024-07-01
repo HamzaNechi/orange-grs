@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,15 +8,14 @@ import 'package:orange_grs/core/strings/urls.dart';
 import 'package:orange_grs/core/widgets/snackbar.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/image_picker_bloc.dart';
 import 'package:orange_grs/features/visites/presentation/bloc/image_picker_bloc/image_picker_state.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_bloc.dart';
+import 'package:orange_grs/features/visites/presentation/bloc/visit_bloc/visite_event.dart';
 
 class AddImageWidget extends StatelessWidget {
   final String? pathImage;
   final ValueChanged<XFile> onChoose;
   final double heightContainer;
   const AddImageWidget({super.key, required this.heightContainer, required this.onChoose, this.pathImage});
-
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +54,11 @@ class AddImageWidget extends StatelessWidget {
                   builder: (context, state) {
 
                     if(state is ImagePickedState){
-                      onChoose(state.file);
+                      print('ocr index add image widget = ${state.imageAndOcrText.ocrValue}');
+                      BlocProvider.of<VisiteBloc>(context).add(ChangeValueIndexEvent(indexValue: state.imageAndOcrText.ocrValue));
+                      onChoose(state.imageAndOcrText.file);
                       return Image.file(
-                        File(state.file.path.toString()),
+                        File(state.imageAndOcrText.file.path.toString()),
                         fit: BoxFit.cover,
                         );
                     }else{

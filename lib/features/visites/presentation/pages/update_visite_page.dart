@@ -102,9 +102,15 @@ class UpdateVisitePage extends StatelessWidget {
                     },
                     pathImage: visite.photoCompteur,
                   ),
+
+                  
                   SizedBox(
                     height: constraints.maxHeight * 0.04,
                   ),
+
+
+
+                  
                   SizedBox(
                     width: constraints.maxWidth * 0.8,
                     child: Form(
@@ -362,7 +368,7 @@ class UpdateVisitePage extends StatelessWidget {
                                       oo: int.parse(ooController.text),
                                       otn: int.parse(otnController.text),
                                       tt: int.parse(ttController.text), 
-                                      tag: visite.tag,
+                                      indexOO: 0, indexTT: 0,
                                       );
 
                                     if(file == null){

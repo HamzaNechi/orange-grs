@@ -10,7 +10,6 @@ import 'package:orange_grs/core/widgets/body_scaffold_global.dart';
 import 'package:orange_grs/features/auth/presentation/blocs/login_bloc/login_bloc_bloc.dart';
 import 'package:orange_grs/features/auth/presentation/pages/profile_user_page.dart';
 import 'package:orange_grs/features/sites/presentation/pages/site_liste_page.dart';
-import 'package:orange_grs/features/statistique/presentation/pages/home_page.dart';
 import 'package:orange_grs/features/visites/presentation/pages/list_visite.dart';
 
 class BottomNav extends StatefulWidget {
@@ -36,8 +35,8 @@ class _BottomNavState extends State<BottomNav> with SingleTickerProviderStateMix
     
     double radiusValue = 0;
     BodyScaffoldGlobal? bodyIndex = BodyScaffoldGlobal.of(context);
-    List<Widget> widgets = [const HomePage(), const SiteListPage(), const ListVisite()];
-
+    List<Widget> widgets = [const SiteListPage(), const ListVisite()];
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return BlocConsumer<BottomNavBloc, BottomNavState>(
       listener: (context, state) {
@@ -67,7 +66,7 @@ class _BottomNavState extends State<BottomNav> with SingleTickerProviderStateMix
             AnimatedBuilder(
               animation: animationController,
               builder: (context, child) {
-                translateWidth = MediaQuery.of(context).size.width * 0.8 * (1 - animationController.value);
+                translateWidth = screenWidth * 0.8 * (1 - animationController.value);
                 scaleValue = 0.8 + 0.2 * animationController.value;
                 radiusValue = 24 * (1- animationController.value);
                 return Transform.translate(
@@ -93,7 +92,7 @@ class _BottomNavState extends State<BottomNav> with SingleTickerProviderStateMix
                           ),
                           child: SafeArea(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+                              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15, vertical: 10),
                               child: GNav(
                                 rippleColor: Colors.grey[300]!,
                                 hoverColor: Colors.grey[100]!,
@@ -105,10 +104,6 @@ class _BottomNavState extends State<BottomNav> with SingleTickerProviderStateMix
                                 tabBackgroundColor: greySurBackColor,
                                 color: secondaryColor,
                                 tabs: const [
-                                  GButton(
-                                    icon: Icons.widgets_outlined,
-                                    text: 'Accueil',
-                                  ),
                                   GButton(
                                     icon: Icons.home_work_outlined,
                                     text: 'Sites',

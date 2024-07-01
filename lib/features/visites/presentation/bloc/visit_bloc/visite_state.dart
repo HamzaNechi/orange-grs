@@ -51,3 +51,21 @@ final class DeletedVisiteState extends VisiteState{
   List<Object> get props => [idVisite];
 }
 
+final class ChangeValueIndexState extends VisiteState{
+  final String indexValue;
+
+  const ChangeValueIndexState({required this.indexValue});
+
+  @override
+  List<Object> get props => [indexValue];
+}
+
+
+final class ChangeValueIndexAddVisiteState extends VisiteState{
+  final String indexValue;
+
+  const ChangeValueIndexAddVisiteState({required this.indexValue});
+
+  @override
+  List<Object> get props => [indexValue];
+}

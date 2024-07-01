@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_grs/core/colors/light_theme_colors.dart';
 import 'package:orange_grs/core/navigations/bottom_nav/bloc/bottom_nav_bloc.dart';
 import 'package:orange_grs/core/navigations/bottom_nav/bloc/bottom_nav_event.dart';
+import 'package:orange_grs/features/reclamation/presentation/pages/add_new_reclamation.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget{
   const AppBarWidget({super.key});
@@ -30,12 +31,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget{
             actions: [
 
 
-              
-              
-              const Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(CupertinoIcons.question_circle, color: secondaryColor, size: 25,),
-              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AddReclamationPage(),));
+                  },
+                  child: const Icon(CupertinoIcons.question_circle, color: secondaryColor, size: 25,)),
+              ) ,
+            
 
 
               Padding(

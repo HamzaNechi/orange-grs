@@ -11,7 +11,4 @@ sealed class ImagePickerEvent extends Equatable {
 class CameraCaptureEvent extends ImagePickerEvent{}
 
 
-class GalleryPickerEvent extends ImagePickerEvent{}
-
-
 class DeleteImagePickedEvent extends ImagePickerEvent{}

@@ -5,6 +5,11 @@ import 'package:orange_grs/features/auth/domain/repositorie/auth_repository.dart
 import 'package:orange_grs/features/auth/domain/usecases/get_connecteduser_use_case.dart';
 import 'package:orange_grs/features/auth/domain/usecases/signin_use_case.dart';
 import 'package:orange_grs/features/auth/presentation/blocs/login_bloc/login_bloc_bloc.dart';
+import 'package:orange_grs/features/reclamation/data/datasources/reclamation_datasource.dart';
+import 'package:orange_grs/features/reclamation/data/repositories/reclamation_repository_impl.dart';
+import 'package:orange_grs/features/reclamation/domain/repositories/reclamation_repo.dart';
+import 'package:orange_grs/features/reclamation/domain/usecase/add_new_reclamation_usecase.dart';
+import 'package:orange_grs/features/reclamation/presentation/blocs/reclamation_bloc/reclamation_bloc.dart';
 import 'package:orange_grs/features/sites/data/datasources/remote_data_source.dart';
 import 'package:orange_grs/features/sites/data/repositories/site_repository_impl.dart';
 import 'package:orange_grs/features/sites/domain/repositorie/site_repository.dart';
@@ -87,7 +92,16 @@ Future<void> init() async {
 
 
 
-
+//!-----------------------------------Features - Reclamation
+// bloc
+  sl.registerFactory(() => ReclamationBloc(useCaseAddReclamation: sl()));
+// use case
+  sl.registerLazySingleton(() => AddNewReclamationUseCase(sl()));
+// repository
+  sl.registerLazySingleton<ReclamationRepository>(() => ReclamationRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()) );
+// datasource
+  sl.registerLazySingleton<ReclamationRemoteDataSource>(() => ReclamationRemoteDataSourceImpl());
+//! ------------------------------ End Features - Reclamation
 
 
 

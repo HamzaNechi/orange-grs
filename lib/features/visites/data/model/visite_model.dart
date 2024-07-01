@@ -12,7 +12,7 @@ class VisiteModel extends Visite{
     required super.site, 
     required super.otn, 
     required super.oo, 
-    required super.tt, required super.tag});
+    required super.tt, required super.indexOO, required super.indexTT});
 
 
     factory VisiteModel.fromJson(Map<String, dynamic> json){
@@ -28,7 +28,8 @@ class VisiteModel extends Visite{
         otn: json['otn'], 
         oo: json['oo'], 
         tt: json['tt'], 
-        tag: json['tag'],);
+        indexOO: json['indexOO'], 
+        indexTT: json['indexTT'],);
     }
 
 

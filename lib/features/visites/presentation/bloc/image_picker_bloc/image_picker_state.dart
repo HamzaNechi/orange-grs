@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:orange_grs/core/utils/image_ocr_model.dart';
 
 
 
@@ -13,12 +13,12 @@ class InitImagePickerState extends ImagePickerState{}
 
 
 class ImagePickedState extends ImagePickerState{
-  final XFile file;
-  ImagePickedState({required this.file});
+  final RetourOcrWithCropImage imageAndOcrText;
+  ImagePickedState({required this.imageAndOcrText});
 
   
   @override
-  List<Object> get props => [file];
+  List<Object> get props => [imageAndOcrText];
 }
 
 class ErrorImagePickedState extends ImagePickerState{}

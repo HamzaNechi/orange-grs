@@ -39,6 +39,12 @@ class VisiteBloc extends Bloc<VisiteEvent, VisiteState> {
           failureOrUpdated = await updateVisiteUseCase.call(event.visite, event.file);
         } 
         emit(emitterDeleteAndAddVisite(failureOrUpdated, null));
+      }else if(event is ChangeValueIndexEvent){
+        print('index value bloc ${event.indexValue}');
+        emit(ChangeValueIndexState(indexValue: event.indexValue));
+      }else if(event is ChangeValueIndexAddVisitEvent){
+        print('index value bloc 222 ${event.indexValue}');
+        emit(ChangeValueIndexAddVisiteState(indexValue: event.indexValue));
       }
     });  
   }

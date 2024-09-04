@@ -49,5 +49,23 @@ class AuthRepositoryImpl implements AuthRepository{
       return Left(OfflineFailure());
     }
   }
+  
+  @override
+  Future<Either<Failure, User>> updatePasswordUser(String newPassword) async{
+    if(await networkInfo.isConnected){
+      try{
+        final user = await authRemoteDataSource.updateUserPassword(newPassword);
+        return Right(user);
+      }on ServerException{
+        return Left(ServerFailure());
+      }on ExpiredJwtException{
+        return Left(ExpiredJwtFailure());
+      }on Exception{
+        return Left(PanneServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
 
 }

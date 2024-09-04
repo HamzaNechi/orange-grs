@@ -151,6 +151,7 @@ class AddVisitePage extends StatelessWidget {
                                 siteCode = value.siteCode!;
                               },
                               checkSharingSite: (value) {
+                                print("site sharing add visite = $value");
                                 isSharing = value;
                               },
                             ),

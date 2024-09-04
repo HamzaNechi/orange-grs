@@ -6,4 +6,5 @@ import 'package:orange_grs/features/auth/domain/entities/user.dart';
 abstract class AuthRepository{
   Future<Either<Failure, LoginResponse>> doLogin(String login, String password);
   Future<Either<Failure, User>> getConnectedUser();
+  Future<Either<Failure, User>> updatePasswordUser(String newPassword);
 }

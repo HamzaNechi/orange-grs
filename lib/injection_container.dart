@@ -4,7 +4,9 @@ import 'package:orange_grs/features/auth/data/repositorie/auth_repository_impl.d
 import 'package:orange_grs/features/auth/domain/repositorie/auth_repository.dart';
 import 'package:orange_grs/features/auth/domain/usecases/get_connecteduser_use_case.dart';
 import 'package:orange_grs/features/auth/domain/usecases/signin_use_case.dart';
+import 'package:orange_grs/features/auth/domain/usecases/update_password_use_case.dart';
 import 'package:orange_grs/features/auth/presentation/blocs/login_bloc/login_bloc_bloc.dart';
+import 'package:orange_grs/features/auth/presentation/blocs/profile_bloc/profile_bloc.dart';
 import 'package:orange_grs/features/reclamation/data/datasources/reclamation_datasource.dart';
 import 'package:orange_grs/features/reclamation/data/repositories/reclamation_repository_impl.dart';
 import 'package:orange_grs/features/reclamation/domain/repositories/reclamation_repo.dart';
@@ -89,6 +91,14 @@ Future<void> init() async {
 // datasource
   sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl());
 //! ------------------------------ End Features - Auth
+
+
+//!-----------------------------------Features - Profile
+// bloc
+  sl.registerFactory(() => ProfileBloc(updateUserPasswordUseCase: sl()));
+// use case
+  sl.registerLazySingleton(() => UpdateUserPasswordUseCase(sl()));
+//! ------------------------------ End Features - Profile
 
 
 

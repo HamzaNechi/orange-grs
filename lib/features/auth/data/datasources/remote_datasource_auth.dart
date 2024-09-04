@@ -13,6 +13,8 @@ import 'package:orange_grs/main.dart';
 abstract class AuthRemoteDataSource{
   Future<LoginResponse> doLogin(String login, String password);
   Future<UserModel> getUserConnected();
+
+  Future<UserModel> updateUserPassword(String newPassword);
 }
 
 
@@ -79,4 +81,39 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
     }
 
   }
+  
+  @override
+  Future<UserModel> updateUserPassword(String newPassword) async {
+    const uri = "$BASE_URL_PUBLIC/users/update/password";
+
+    final header  = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${sharedPref.getString('token')}",
+    };
+
+    final body = {
+      "password" : newPassword
+    };
+
+
+    try{
+      var response = await http.post(
+        Uri.parse(uri),
+        body: jsonEncode(body),
+        headers: header).timeout(const Duration(seconds: 10));
+      if(response.statusCode == 200){
+        final Map<String, dynamic> mapJson = jsonDecode(response.body) as Map<String, dynamic>;   
+        final UserModel user = UserModel.fromJson(mapJson);
+        return user;
+      }else if(response.statusCode == 403){
+        throw ExpiredJwtException();
+      }else{
+        throw ServerException();
+      }
+    }on TimeoutException{
+      throw TimeoutException("Le serveur est actuellement en panne");
+    }
+  }
+  
+
 }

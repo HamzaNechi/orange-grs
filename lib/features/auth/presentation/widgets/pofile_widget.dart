@@ -7,6 +7,7 @@ import 'package:orange_grs/core/navigations/bottom_nav/bloc/bottom_nav_event.dar
 import 'package:orange_grs/core/strings/fonts.dart';
 import 'package:orange_grs/features/auth/domain/entities/user.dart';
 import 'package:orange_grs/features/auth/presentation/pages/login_page.dart';
+import 'package:orange_grs/features/auth/presentation/widgets/update_password.dart';
 import 'package:orange_grs/main.dart';
 
 class ProfileWidget extends StatelessWidget {
@@ -183,7 +184,39 @@ class ProfileWidget extends StatelessWidget {
 
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                                  child: InkWell(
+                                  child: Column(
+                                    children: [
+                                      InkWell(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) =>const UpdatePasswordUserWidget(),));
+                                    },
+                                    child: Container(
+                                      height: 50,
+                                      width: MediaQuery.of(context).size.width * 0.7,
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(7),
+                                        border:
+                                            Border.all(color: secondaryColor, width: 2),
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          "Modifier",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: rubikFontMedium,
+                                              fontWeight: FontWeight.w400,
+                                              color: secondaryColor),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+
+                                  const SizedBox(height: 10,),
+
+
+                                  InkWell(
                                     onTap: () {
                                       sharedPref.remove('token');
                                       sharedPref.remove('isAdmin');
@@ -212,6 +245,8 @@ class ProfileWidget extends StatelessWidget {
                                       ),
                                     ),
                                   ),
+                                    ],
+                                  )
                                 )
                               ],
                             ),

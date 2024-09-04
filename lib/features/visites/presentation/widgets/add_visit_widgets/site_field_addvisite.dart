@@ -41,7 +41,8 @@ class SearchableFieldSiteForAddVisite extends StatelessWidget {
                                   onSuggestionTap: (p) {
                                     siteController.text = p.item!.siteCode!;
                                     onSubmit(p.item!);
-                                    checkSharingSite(p.item!.isSharing == 1);
+                                    print("sharing site from site field widget = ${p.item!.isSharing}");
+                                    checkSharingSite(p.item!.isSharing);
                                   },
                                   
                     
